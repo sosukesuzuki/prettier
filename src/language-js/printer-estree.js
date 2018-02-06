@@ -26,6 +26,7 @@ const ifBreak = docBuilders.ifBreak;
 const breakParent = docBuilders.breakParent;
 const lineSuffixBoundary = docBuilders.lineSuffixBoundary;
 const addAlignmentToDoc = docBuilders.addAlignmentToDoc;
+const dedent = docBuilders.dedent;
 
 const docUtils = doc.utils;
 const willBreak = docUtils.willBreak;
@@ -760,8 +761,8 @@ function printPathNoParens(path, options, print, args) {
           parts.push(
             concat([
               " (",
-              indent(concat([softline, path.call(print, "argument")])),
-              line,
+              indent(concat([hardline, path.call(print, "argument")])),
+              hardline,
               ")"
             ])
           );
@@ -801,10 +802,12 @@ function printPathNoParens(path, options, print, args) {
 
       const optional = printOptionalToken(path);
       if (
-        // We want to keep require calls as a unit
+        // We want to keep CommonJS- and AMD-style require calls, and AMD-style
+        // define calls, as a unit.
+        // e.g. `define(["some/lib", (lib) => {`
         (!isNew &&
           n.callee.type === "Identifier" &&
-          n.callee.name === "require") ||
+          (n.callee.name === "require" || n.callee.name === "define")) ||
         n.callee.type === "Import" ||
         // Template literals as single arguments
         (n.arguments.length === 1 &&
@@ -1259,7 +1262,7 @@ function printPathNoParens(path, options, print, args) {
         );
       } else {
         // normal mode
-        parts.push(
+        const part = concat([
           line,
           "? ",
           n.consequent.type === "ConditionalExpression" ? ifBreak("", "(") : "",
@@ -1268,6 +1271,13 @@ function printPathNoParens(path, options, print, args) {
           line,
           ": ",
           align(2, path.call(print, "alternate"))
+        ]);
+        parts.push(
+          parent.type === "ConditionalExpression"
+            ? options.useTabs
+              ? dedent(indent(part))
+              : align(Math.max(0, options.tabWidth - 2), part)
+            : part
         );
       }
 
