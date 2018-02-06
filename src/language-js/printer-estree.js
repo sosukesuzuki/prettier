@@ -3344,13 +3344,13 @@ function printFunctionDeclaration(path, print, options) {
     parts.push("async ");
   }
 
-  parts.push("function");
+  parts.push("function ");
 
   if (n.generator) {
     parts.push("*");
   }
   if (n.id) {
-    parts.push(" ", path.call(print, "id"));
+    parts.push(path.call(print, "id"));
   }
 
   parts.push(
