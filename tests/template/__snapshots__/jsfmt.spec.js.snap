@@ -343,7 +343,7 @@ b()\`\`;
 (b ? c : d)\`\`;
 
 // "FunctionExpression"
-(function() {})\`\`;
+(function () {})\`\`;
 
 // "LogicalExpression"
 (b || c)\`\`;
@@ -370,7 +370,7 @@ new B()\`\`;
 (++b)\`\`;
 
 // "YieldExpression"
-function* f() {
+function *f() {
   (yield 1)\`\`;
 }
 

@@ -659,8 +659,8 @@ wrapper.find('SomewhatLongNodeName').prop('longPropFunctionName')('argument', 's
 });
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 if (testConfig.ENABLE_ONLINE_TESTS === "true") {
-  describe("POST /users/me/pet", function() {
-    it("saves pet", function() {
+  describe("POST /users/me/pet", function () {
+    it("saves pet", function () {
       function assert(pet) {
         expect(pet)
           .to.have.property("OwnerAddress")
@@ -680,14 +680,14 @@ if (testConfig.ENABLE_ONLINE_TESTS === "true") {
 wrapper
   .find("SomewhatLongNodeName")
   .prop("longPropFunctionName")()
-  .then(function() {
+  .then(function () {
     doSomething();
   });
 
 wrapper
   .find("SomewhatLongNodeName")
   .prop("longPropFunctionName")("argument")
-  .then(function() {
+  .then(function () {
     doSomething();
   });
 
@@ -697,7 +697,7 @@ wrapper
     "longPropFunctionName",
     "second argument that pushes this group past 80 characters"
   )("argument")
-  .then(function() {
+  .then(function () {
     doSomething();
   });
 
@@ -707,7 +707,7 @@ wrapper
     "argument",
     "second argument that pushes this group past 80 characters"
   )
-  .then(function() {
+  .then(function () {
     doSomething();
   });
 

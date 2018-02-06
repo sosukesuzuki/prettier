@@ -49,13 +49,13 @@ let f = () => import(a /* ... */);
 let f = () => doThing(a, /* ... */ b);
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 let f = (/* ... */) => {};
-(function(/* ... */) {})(/* ... */);
+(function (/* ... */) {})(/* ... */);
 function f(/* ... */) {}
 
 const obj = {
   f(/* ... */) {},
   f: (/* ... */) => {},
-  f: function(/* ... */) {},
+  f: function (/* ... */) {},
   f: function f(/* ... */) {}
 };
 
@@ -65,7 +65,7 @@ class Foo {
   f = (/* ... */) => {};
   static f(/* ... */) {}
   static f = (/* ... */) => {};
-  static f = function(/* ... */) {};
+  static f = function (/* ... */) {};
   static f = function f(/* ... */) {};
 }
 
