@@ -45,7 +45,7 @@ export default class Column<T> extends (RcTable.Column as React.ComponentClass<
 >) {}
 export abstract class MobxTypedForm extends (Form as { new (): any }) {}
 ({} as {});
-function *g() {
+function* g() {
   const test = (yield "foo") as number;
 }
 async function g() {

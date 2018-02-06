@@ -12,7 +12,7 @@ class X {
     }
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-async function *a() {
+async function* a() {
   yield* b();
 }
 
@@ -48,7 +48,7 @@ async function f() {
 async function g() {
   invariant((await driver.navigator.getUrl()).substr(-7));
 }
-function *f() {
+function* f() {
   !(yield a);
 }
 async function f() {
@@ -97,7 +97,7 @@ async function *f(){ await (yield x); }
 
 async function f(){ await (() => {}); }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-async function *f() {
+async function* f() {
   await (yield x);
 }
 

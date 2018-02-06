@@ -110,7 +110,7 @@ class a extends (void b) {}
 class a extends (++b) {}
 
 // "YieldExpression"
-function *f() {
+function* f() {
   // Flow has a bug parsing it.
   // class a extends (yield 1) {}
 }

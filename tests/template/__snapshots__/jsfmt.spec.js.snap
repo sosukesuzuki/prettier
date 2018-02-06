@@ -370,7 +370,7 @@ new B()\`\`;
 (++b)\`\`;
 
 // "YieldExpression"
-function *f() {
+function* f() {
   (yield 1)\`\`;
 }
 

@@ -7,7 +7,7 @@ function *f() {
   (yield async (a) => a);
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function *f() {
+function* f() {
   yield a => a;
   yield async a => a;
   yield async a => a;
@@ -36,7 +36,7 @@ async function f() {
   a = 1 ? await 1 : await 1;
 }
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function *f() {
+function* f() {
   a = (yield) ? 1 : 1;
   a = yield 1 ? 1 : 1;
   a = (yield 1) ? 1 : 1;
@@ -44,7 +44,7 @@ function *f() {
   a = 1 ? yield 1 : yield 1;
 }
 
-function *f() {
+function* f() {
   a = yield* 1 ? 1 : 1;
   a = (yield* 1) ? 1 : 1;
   a = 1 ? yield* 1 : yield* 1;
