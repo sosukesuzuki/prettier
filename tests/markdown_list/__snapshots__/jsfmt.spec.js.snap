@@ -1,94 +1,681 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`align.md 1`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+                                                                                | printWidth
+=====================================input======================================
+1. 123
+
+---
+
+11. 123
+
+---
+
+111. 123
+
+---
+
+1111. 123
+
+---
+
+11111. 123
+
+---
+
+1.  123
+
+---
+
+1.  123
+2.  123
+
+---
+
+11. 123
+1. 123
+
+---
+
+11. 123
+1.  123
+
+---
+
+1. 123
+2. 123
+   1.   123
+   2.   123
+
+---
+
+1.  123
+2.  123
+    1.   123
+    2.   123
+
+---
+
+- 123
+- 123
+  1.  123
+  2.  123
+
+=====================================output=====================================
+1. 123
+
+---
+
+11. 123
+
+---
+
+111. 123
+
+---
+
+1111. 123
+
+---
+
+11111. 123
+
+---
+
+1.  123
+
+---
+
+1.  123
+2.  123
+
+---
+
+11. 123
+1. 123
+
+---
+
+11. 123
+1.  123
+
+---
+
+1. 123
+2. 123
+   1. 123
+   2. 123
+
+---
+
+1.  123
+2.  123
+    1.  123
+    2.  123
+
+---
+
+- 123
+- 123
+  1.  123
+  2.  123
+
+================================================================================
+`;
+
+exports[`align.md 2`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 4
+                                                                                | printWidth
+=====================================input======================================
+1. 123
+
+---
+
+11. 123
+
+---
+
+111. 123
+
+---
+
+1111. 123
+
+---
+
+11111. 123
+
+---
+
+1.  123
+
+---
+
+1.  123
+2.  123
+
+---
+
+11. 123
+1. 123
+
+---
+
+11. 123
+1.  123
+
+---
+
+1. 123
+2. 123
+   1.   123
+   2.   123
+
+---
+
+1.  123
+2.  123
+    1.   123
+    2.   123
+
+---
+
+- 123
+- 123
+  1.  123
+  2.  123
+
+=====================================output=====================================
+1. 123
+
+---
+
+11. 123
+
+---
+
+111. 123
+
+---
+
+1111. 123
+
+---
+
+11111. 123
+
+---
+
+1.  123
+
+---
+
+1.  123
+2.  123
+
+---
+
+11. 123
+1. 123
+
+---
+
+11. 123
+1.  123
+
+---
+
+1. 123
+2. 123
+    1. 123
+    2. 123
+
+---
+
+1.  123
+2.  123
+    1.  123
+    2.  123
+
+---
+
+-   123
+-   123
+    1.  123
+    2.  123
+
+================================================================================
+`;
+
+exports[`align.md 3`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 999
+                                                                                | printWidth
+=====================================input======================================
+1. 123
+
+---
+
+11. 123
+
+---
+
+111. 123
+
+---
+
+1111. 123
+
+---
+
+11111. 123
+
+---
+
+1.  123
+
+---
+
+1.  123
+2.  123
+
+---
+
+11. 123
+1. 123
+
+---
+
+11. 123
+1.  123
+
+---
+
+1. 123
+2. 123
+   1.   123
+   2.   123
+
+---
+
+1.  123
+2.  123
+    1.   123
+    2.   123
+
+---
+
+- 123
+- 123
+  1.  123
+  2.  123
+
+=====================================output=====================================
+1. 123
+
+---
+
+11. 123
+
+---
+
+111. 123
+
+---
+
+1111. 123
+
+---
+
+11111. 123
+
+---
+
+1. 123
+
+---
+
+1. 123
+2. 123
+
+---
+
+11. 123
+1. 123
+
+---
+
+11. 123
+1. 123
+
+---
+
+1. 123
+2. 123
+      1. 123
+      2. 123
+
+---
+
+1. 123
+2. 123
+      1. 123
+      2. 123
+
+---
+
+- 123
+- 123
+     1. 123
+     2. 123
+
+================================================================================
+`;
+
+exports[`align.md 4`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 0
+                                                                                | printWidth
+=====================================input======================================
+1. 123
+
+---
+
+11. 123
+
+---
+
+111. 123
+
+---
+
+1111. 123
+
+---
+
+11111. 123
+
+---
+
+1.  123
+
+---
+
+1.  123
+2.  123
+
+---
+
+11. 123
+1. 123
+
+---
+
+11. 123
+1.  123
+
+---
+
+1. 123
+2. 123
+   1.   123
+   2.   123
+
+---
+
+1.  123
+2.  123
+    1.   123
+    2.   123
+
+---
+
+- 123
+- 123
+  1.  123
+  2.  123
+
+=====================================output=====================================
+1. 123
+
+---
+
+11. 123
+
+---
+
+111. 123
+
+---
+
+1111. 123
+
+---
+
+11111. 123
+
+---
+
+1. 123
+
+---
+
+1. 123
+2. 123
+
+---
+
+11. 123
+1. 123
+
+---
+
+11. 123
+1. 123
+
+---
+
+1. 123
+2. 123
+   1. 123
+   2. 123
+
+---
+
+1. 123
+2. 123
+   1. 123
+   2. 123
+
+---
+
+- 123
+- 123
+  1. 123
+  2. 123
+
+================================================================================
+`;
+
 exports[`checkbox.md 1`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+                                                                                | printWidth
+=====================================input======================================
 - [ ] this is a long long long long long long long long long long long long long long paragraph.
 - [x] this is a long long long long long long long long long long long long long long paragraph.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* [ ] this is a long long long long long long long long long long long long long
+
+=====================================output=====================================
+- [ ] this is a long long long long long long long long long long long long long
       long paragraph.
-* [x] this is a long long long long long long long long long long long long long
+- [x] this is a long long long long long long long long long long long long long
       long paragraph.
 
+================================================================================
 `;
 
 exports[`checkbox.md 2`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 4
+                                                                                | printWidth
+=====================================input======================================
 - [ ] this is a long long long long long long long long long long long long long long paragraph.
 - [x] this is a long long long long long long long long long long long long long long paragraph.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* [ ] this is a long long long long long long long long long long long long long
-      long paragraph.
-* [x] this is a long long long long long long long long long long long long long
-      long paragraph.
 
+=====================================output=====================================
+-   [ ] this is a long long long long long long long long long long long long
+        long long paragraph.
+-   [x] this is a long long long long long long long long long long long long
+        long long paragraph.
+
+================================================================================
 `;
 
 exports[`checkbox.md 3`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 999
+                                                                                | printWidth
+=====================================input======================================
 - [ ] this is a long long long long long long long long long long long long long long paragraph.
 - [x] this is a long long long long long long long long long long long long long long paragraph.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* [ ] this is a long long long long long long long long long long long long long
+
+=====================================output=====================================
+- [ ] this is a long long long long long long long long long long long long long
       long paragraph.
-* [x] this is a long long long long long long long long long long long long long
+- [x] this is a long long long long long long long long long long long long long
       long paragraph.
 
+================================================================================
 `;
 
 exports[`checkbox.md 4`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 0
+                                                                                | printWidth
+=====================================input======================================
 - [ ] this is a long long long long long long long long long long long long long long paragraph.
 - [x] this is a long long long long long long long long long long long long long long paragraph.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* [ ] this is a long long long long long long long long long long long long long
+
+=====================================output=====================================
+- [ ] this is a long long long long long long long long long long long long long
       long paragraph.
-* [x] this is a long long long long long long long long long long long long long
+- [x] this is a long long long long long long long long long long long long long
       long paragraph.
 
+================================================================================
 `;
 
 exports[`git-diff-friendly.md 1`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+                                                                                | printWidth
+=====================================input======================================
 5. abc
 1. def
 999. ghi
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+=====================================output=====================================
 5. abc
 1. def
 1. ghi
 
+================================================================================
 `;
 
 exports[`git-diff-friendly.md 2`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 4
+                                                                                | printWidth
+=====================================input======================================
 5. abc
 1. def
 999. ghi
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+=====================================output=====================================
 5. abc
 1. def
 1. ghi
 
+================================================================================
 `;
 
 exports[`git-diff-friendly.md 3`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 999
+                                                                                | printWidth
+=====================================input======================================
 5. abc
 1. def
 999. ghi
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+=====================================output=====================================
 5. abc
 1. def
 1. ghi
 
+================================================================================
 `;
 
 exports[`git-diff-friendly.md 4`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 0
+                                                                                | printWidth
+=====================================input======================================
 5. abc
 1. def
 999. ghi
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+=====================================output=====================================
 5. abc
 1. def
 1. ghi
 
+================================================================================
 `;
 
 exports[`indent.md 1`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+                                                                                | printWidth
+=====================================input======================================
 - [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
 
     - a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
@@ -174,17 +761,18 @@ exports[`indent.md 1`] = `
                     b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
 
           a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+
+=====================================output=====================================
+- [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
       a a a a a a a a a a a a a a a
 
-  * a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+  - a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
     a a a a a a a a a a a a a a
 
     b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
     b b b b b b b b b b b b b b
 
-  * [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+  - [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
         a a a a a a a a a a a a a a
 
     b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
@@ -220,13 +808,13 @@ exports[`indent.md 1`] = `
 1. [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
        a a a a a a a a a a a a a a a
 
-   * a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+   - a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
      a a a a a a a a a a a a a a
 
      b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
      b b b b b b b b b b b b b b
 
-   * [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+   - [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
          a a a a a a a a a a a a a a
 
      b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
@@ -265,13 +853,13 @@ exports[`indent.md 1`] = `
           b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
           b b b b b b b b b b b b b b b
 
-          * a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+          - a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
             a a a a a a a a a a a a a a a
 
             b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
             b b b b b b b b b b b b b b b
 
-          * [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+          - [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
                 a a a a a a a a a a a a a a a
 
             b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
@@ -304,9 +892,17 @@ exports[`indent.md 1`] = `
           a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
           a a a a a a a a a a a a a a a
 
+================================================================================
 `;
 
 exports[`indent.md 2`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 4
+                                                                                | printWidth
+=====================================input======================================
 - [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
 
     - a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
@@ -392,18 +988,19 @@ exports[`indent.md 2`] = `
                     b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
 
           a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
-      a a a a a a a a a a a a a a a
 
-    * a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
-      a a a a a a a a a a a a a a a
+=====================================output=====================================
+-   [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+        a a a a a a a a a a a a a a a a
+
+    -   a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+        a a a a a a a a a a a a a a a a
 
         b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
         b b b b b b b b b b b b b b b b
 
-    * [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
-          a a a a a a a a a a a a a a a
+    -   [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+            a a a a a a a a a a a a a a a a
 
         b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
         b b b b b b b b b b b b b b b b
@@ -438,13 +1035,13 @@ exports[`indent.md 2`] = `
 1. [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
        a a a a a a a a a a a a a a a
 
-    * a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+    - a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
       a a a a a a a a a a a a a a a
 
         b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
         b b b b b b b b b b b b b b b b
 
-    * [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+    - [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
           a a a a a a a a a a a a a a a
 
         b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
@@ -483,13 +1080,13 @@ exports[`indent.md 2`] = `
           b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
           b b b b b b b b b b b b b b b
 
-          * a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+          - a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
             a a a a a a a a a a a a a a a
 
               b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
               b b b b b b b b b b b b b b b b
 
-          * [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+          - [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
                 a a a a a a a a a a a a a a a
 
               b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
@@ -522,9 +1119,17 @@ exports[`indent.md 2`] = `
           a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
           a a a a a a a a a a a a a a a
 
+================================================================================
 `;
 
 exports[`indent.md 3`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 999
+                                                                                | printWidth
+=====================================input======================================
 - [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
 
     - a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
@@ -610,17 +1215,18 @@ exports[`indent.md 3`] = `
                     b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
 
           a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+
+=====================================output=====================================
+- [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
       a a a a a a a a a a a a a a a
 
-     * a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+     - a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
        a a a a a a a a a a a a a a a
 
           b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
           b b b b b b b b b b b b b b b b b
 
-     * [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+     - [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
            a a a a a a a a a a a a a a a
 
           b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
@@ -656,13 +1262,13 @@ exports[`indent.md 3`] = `
 1. [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
        a a a a a a a a a a a a a a a
 
-      * a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+      - a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
         a a a a a a a a a a a a a a a a
 
            b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
            b b b b b b b b b b b b b b b b b
 
-      * [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+      - [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
             a a a a a a a a a a a a a a a a
 
            b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
@@ -701,13 +1307,13 @@ exports[`indent.md 3`] = `
              b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
              b b b b b b b b b b b b b b b b
 
-             * a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+             - a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
                a a a a a a a a a a a a a a a a
 
                   b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
                   b b b b b b b b b b b b b b b b b b
 
-             * [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+             - [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
                    a a a a a a a a a a a a a a a a
 
                   b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
@@ -740,9 +1346,17 @@ exports[`indent.md 3`] = `
              a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
              a a a a a a a a a a a a a a a a
 
+================================================================================
 `;
 
 exports[`indent.md 4`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 0
+                                                                                | printWidth
+=====================================input======================================
 - [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
 
     - a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
@@ -828,17 +1442,18 @@ exports[`indent.md 4`] = `
                     b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
 
           a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+
+=====================================output=====================================
+- [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
       a a a a a a a a a a a a a a a
 
-  * a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+  - a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
     a a a a a a a a a a a a a a
 
     b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
     b b b b b b b b b b b b b b
 
-  * [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+  - [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
         a a a a a a a a a a a a a a
 
     b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
@@ -874,13 +1489,13 @@ exports[`indent.md 4`] = `
 1. [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
        a a a a a a a a a a a a a a a
 
-   * a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+   - a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
      a a a a a a a a a a a a a a
 
      b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
      b b b b b b b b b b b b b b
 
-   * [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+   - [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
          a a a a a a a a a a a a a a
 
      b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
@@ -919,13 +1534,13 @@ exports[`indent.md 4`] = `
           b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
           b b b b b b b b b b b b b b b
 
-          * a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+          - a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
             a a a a a a a a a a a a a a a
 
             b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
             b b b b b b b b b b b b b b b
 
-          * [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
+          - [ ] a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
                 a a a a a a a a a a a a a a a
 
             b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b
@@ -958,81 +1573,158 @@ exports[`indent.md 4`] = `
           a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
           a a a a a a a a a a a a a a a
 
+================================================================================
 `;
 
 exports[`interrupt.md 1`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+                                                                                | printWidth
+=====================================input======================================
 * Something
 ### Some heading
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* Something
+
+=====================================output=====================================
+- Something
 
 ### Some heading
 
+================================================================================
 `;
 
 exports[`interrupt.md 2`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 4
+                                                                                | printWidth
+=====================================input======================================
 * Something
 ### Some heading
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* Something
+
+=====================================output=====================================
+-   Something
 
 ### Some heading
 
+================================================================================
 `;
 
 exports[`interrupt.md 3`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 999
+                                                                                | printWidth
+=====================================input======================================
 * Something
 ### Some heading
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* Something
+
+=====================================output=====================================
+- Something
 
 ### Some heading
 
+================================================================================
 `;
 
 exports[`interrupt.md 4`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 0
+                                                                                | printWidth
+=====================================input======================================
 * Something
 ### Some heading
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* Something
+
+=====================================output=====================================
+- Something
 
 ### Some heading
 
+================================================================================
 `;
 
 exports[`long-paragraph.md 1`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+                                                                                | printWidth
+=====================================input======================================
 - This is a long long long long long long long long long long long long long long paragraph.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* This is a long long long long long long long long long long long long long
+
+=====================================output=====================================
+- This is a long long long long long long long long long long long long long
   long paragraph.
 
+================================================================================
 `;
 
 exports[`long-paragraph.md 2`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 4
+                                                                                | printWidth
+=====================================input======================================
 - This is a long long long long long long long long long long long long long long paragraph.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* This is a long long long long long long long long long long long long long
-  long paragraph.
 
+=====================================output=====================================
+-   This is a long long long long long long long long long long long long long
+    long paragraph.
+
+================================================================================
 `;
 
 exports[`long-paragraph.md 3`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 999
+                                                                                | printWidth
+=====================================input======================================
 - This is a long long long long long long long long long long long long long long paragraph.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* This is a long long long long long long long long long long long long long
+
+=====================================output=====================================
+- This is a long long long long long long long long long long long long long
   long paragraph.
 
+================================================================================
 `;
 
 exports[`long-paragraph.md 4`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 0
+                                                                                | printWidth
+=====================================input======================================
 - This is a long long long long long long long long long long long long long long paragraph.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* This is a long long long long long long long long long long long long long
+
+=====================================output=====================================
+- This is a long long long long long long long long long long long long long
   long paragraph.
 
+================================================================================
 `;
 
 exports[`loose.md 1`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+                                                                                | printWidth
+=====================================input======================================
 - 123
 
   - abc
@@ -1044,22 +1736,31 @@ exports[`loose.md 1`] = `
 - 789
 
   - ghi
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* 123
 
-  * abc
+=====================================output=====================================
+- 123
 
-* 456
+  - abc
 
-  * def
+- 456
 
-* 789
+  - def
 
-  * ghi
+- 789
 
+  - ghi
+
+================================================================================
 `;
 
 exports[`loose.md 2`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 4
+                                                                                | printWidth
+=====================================input======================================
 - 123
 
   - abc
@@ -1071,22 +1772,31 @@ exports[`loose.md 2`] = `
 - 789
 
   - ghi
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* 123
 
-    * abc
+=====================================output=====================================
+-   123
 
-* 456
+    -   abc
 
-    * def
+-   456
 
-* 789
+    -   def
 
-    * ghi
+-   789
 
+    -   ghi
+
+================================================================================
 `;
 
 exports[`loose.md 3`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 999
+                                                                                | printWidth
+=====================================input======================================
 - 123
 
   - abc
@@ -1098,22 +1808,31 @@ exports[`loose.md 3`] = `
 - 789
 
   - ghi
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* 123
 
-     * abc
+=====================================output=====================================
+- 123
 
-* 456
+     - abc
 
-     * def
+- 456
 
-* 789
+     - def
 
-     * ghi
+- 789
 
+     - ghi
+
+================================================================================
 `;
 
 exports[`loose.md 4`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 0
+                                                                                | printWidth
+=====================================input======================================
 - 123
 
   - abc
@@ -1125,102 +1844,180 @@ exports[`loose.md 4`] = `
 - 789
 
   - ghi
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* 123
 
-  * abc
+=====================================output=====================================
+- 123
 
-* 456
+  - abc
 
-  * def
+- 456
 
-* 789
+  - def
 
-  * ghi
+- 789
 
+  - ghi
+
+================================================================================
 `;
 
 exports[`multiline.md 1`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+                                                                                | printWidth
+=====================================input======================================
 - 123
   456
   789
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* 123 456 789
 
+=====================================output=====================================
+- 123 456 789
+
+================================================================================
 `;
 
 exports[`multiline.md 2`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 4
+                                                                                | printWidth
+=====================================input======================================
 - 123
   456
   789
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* 123 456 789
 
+=====================================output=====================================
+-   123 456 789
+
+================================================================================
 `;
 
 exports[`multiline.md 3`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 999
+                                                                                | printWidth
+=====================================input======================================
 - 123
   456
   789
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* 123 456 789
 
+=====================================output=====================================
+- 123 456 789
+
+================================================================================
 `;
 
 exports[`multiline.md 4`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 0
+                                                                                | printWidth
+=====================================input======================================
 - 123
   456
   789
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* 123 456 789
 
+=====================================output=====================================
+- 123 456 789
+
+================================================================================
 `;
 
 exports[`nested.md 1`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+                                                                                | printWidth
+=====================================input======================================
 - Level 1
   - Level 2
     - Level 3
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* Level 1
-  * Level 2
-    * Level 3
 
+=====================================output=====================================
+- Level 1
+  - Level 2
+    - Level 3
+
+================================================================================
 `;
 
 exports[`nested.md 2`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 4
+                                                                                | printWidth
+=====================================input======================================
 - Level 1
   - Level 2
     - Level 3
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* Level 1
-    * Level 2
-        * Level 3
 
+=====================================output=====================================
+-   Level 1
+    -   Level 2
+        -   Level 3
+
+================================================================================
 `;
 
 exports[`nested.md 3`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 999
+                                                                                | printWidth
+=====================================input======================================
 - Level 1
   - Level 2
     - Level 3
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* Level 1
-     * Level 2
-          * Level 3
 
+=====================================output=====================================
+- Level 1
+     - Level 2
+          - Level 3
+
+================================================================================
 `;
 
 exports[`nested.md 4`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 0
+                                                                                | printWidth
+=====================================input======================================
 - Level 1
   - Level 2
     - Level 3
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* Level 1
-  * Level 2
-    * Level 3
 
+=====================================output=====================================
+- Level 1
+  - Level 2
+    - Level 3
+
+================================================================================
 `;
 
 exports[`nested-checkbox.md 1`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+                                                                                | printWidth
+=====================================input======================================
 * parent list item parent list item parent list item parent list item parent list item parent list item
 
      * child list item child list item child list item child list item child list item child list item
@@ -1232,28 +2029,37 @@ exports[`nested-checkbox.md 1`] = `
      * [x] child task list item child task list item child task list item child task list item
 
     paragraph paragraph paragraph paragraph paragraph paragraph paragraph paragraph paragraph
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* parent list item parent list item parent list item parent list item parent
+
+=====================================output=====================================
+- parent list item parent list item parent list item parent list item parent
   list item parent list item
 
-  * child list item child list item child list item child list item child list
+  - child list item child list item child list item child list item child list
     item child list item
 
   paragraph paragraph paragraph paragraph paragraph paragraph paragraph
   paragraph paragraph
 
-* [x] parent task list item parent task list item parent task list item parent
+- [x] parent task list item parent task list item parent task list item parent
       task list item
 
-  * [x] child task list item child task list item child task list item child
+  - [x] child task list item child task list item child task list item child
         task list item
 
   paragraph paragraph paragraph paragraph paragraph paragraph paragraph
   paragraph paragraph
 
+================================================================================
 `;
 
 exports[`nested-checkbox.md 2`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 4
+                                                                                | printWidth
+=====================================input======================================
 * parent list item parent list item parent list item parent list item parent list item parent list item
 
      * child list item child list item child list item child list item child list item child list item
@@ -1265,28 +2071,37 @@ exports[`nested-checkbox.md 2`] = `
      * [x] child task list item child task list item child task list item child task list item
 
     paragraph paragraph paragraph paragraph paragraph paragraph paragraph paragraph paragraph
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* parent list item parent list item parent list item parent list item parent
-  list item parent list item
 
-    * child list item child list item child list item child list item child list
-      item child list item
+=====================================output=====================================
+-   parent list item parent list item parent list item parent list item parent
+    list item parent list item
 
-    paragraph paragraph paragraph paragraph paragraph paragraph paragraph
-    paragraph paragraph
-
-* [x] parent task list item parent task list item parent task list item parent
-      task list item
-
-    * [x] child task list item child task list item child task list item child
-          task list item
+    -   child list item child list item child list item child list item child
+        list item child list item
 
     paragraph paragraph paragraph paragraph paragraph paragraph paragraph
     paragraph paragraph
 
+-   [x] parent task list item parent task list item parent task list item parent
+        task list item
+
+    -   [x] child task list item child task list item child task list item child
+            task list item
+
+    paragraph paragraph paragraph paragraph paragraph paragraph paragraph
+    paragraph paragraph
+
+================================================================================
 `;
 
 exports[`nested-checkbox.md 3`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 999
+                                                                                | printWidth
+=====================================input======================================
 * parent list item parent list item parent list item parent list item parent list item parent list item
 
      * child list item child list item child list item child list item child list item child list item
@@ -1298,28 +2113,37 @@ exports[`nested-checkbox.md 3`] = `
      * [x] child task list item child task list item child task list item child task list item
 
     paragraph paragraph paragraph paragraph paragraph paragraph paragraph paragraph paragraph
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* parent list item parent list item parent list item parent list item parent
+
+=====================================output=====================================
+- parent list item parent list item parent list item parent list item parent
   list item parent list item
 
-     * child list item child list item child list item child list item child
+     - child list item child list item child list item child list item child
        list item child list item
 
      paragraph paragraph paragraph paragraph paragraph paragraph paragraph
      paragraph paragraph
 
-* [x] parent task list item parent task list item parent task list item parent
+- [x] parent task list item parent task list item parent task list item parent
       task list item
 
-     * [x] child task list item child task list item child task list item child
+     - [x] child task list item child task list item child task list item child
            task list item
 
      paragraph paragraph paragraph paragraph paragraph paragraph paragraph
      paragraph paragraph
 
+================================================================================
 `;
 
 exports[`nested-checkbox.md 4`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 0
+                                                                                | printWidth
+=====================================input======================================
 * parent list item parent list item parent list item parent list item parent list item parent list item
 
      * child list item child list item child list item child list item child list item child list item
@@ -1331,72 +2155,115 @@ exports[`nested-checkbox.md 4`] = `
      * [x] child task list item child task list item child task list item child task list item
 
     paragraph paragraph paragraph paragraph paragraph paragraph paragraph paragraph paragraph
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* parent list item parent list item parent list item parent list item parent
+
+=====================================output=====================================
+- parent list item parent list item parent list item parent list item parent
   list item parent list item
 
-  * child list item child list item child list item child list item child list
+  - child list item child list item child list item child list item child list
     item child list item
 
   paragraph paragraph paragraph paragraph paragraph paragraph paragraph
   paragraph paragraph
 
-* [x] parent task list item parent task list item parent task list item parent
+- [x] parent task list item parent task list item parent task list item parent
       task list item
 
-  * [x] child task list item child task list item child task list item child
+  - [x] child task list item child task list item child task list item child
         task list item
 
   paragraph paragraph paragraph paragraph paragraph paragraph paragraph
   paragraph paragraph
 
+================================================================================
 `;
 
 exports[`ordered.md 1`] = `
-1. 123
-1. 456
-1. 789
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+                                                                                | printWidth
+=====================================input======================================
 1. 123
 1. 456
 1. 789
 
+=====================================output=====================================
+1. 123
+1. 456
+1. 789
+
+================================================================================
 `;
 
 exports[`ordered.md 2`] = `
-1. 123
-1. 456
-1. 789
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 4
+                                                                                | printWidth
+=====================================input======================================
 1. 123
 1. 456
 1. 789
 
+=====================================output=====================================
+1. 123
+1. 456
+1. 789
+
+================================================================================
 `;
 
 exports[`ordered.md 3`] = `
-1. 123
-1. 456
-1. 789
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 999
+                                                                                | printWidth
+=====================================input======================================
 1. 123
 1. 456
 1. 789
 
+=====================================output=====================================
+1. 123
+1. 456
+1. 789
+
+================================================================================
 `;
 
 exports[`ordered.md 4`] = `
-1. 123
-1. 456
-1. 789
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 0
+                                                                                | printWidth
+=====================================input======================================
 1. 123
 1. 456
 1. 789
 
+=====================================output=====================================
+1. 123
+1. 456
+1. 789
+
+================================================================================
 `;
 
 exports[`separate.md 1`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+                                                                                | printWidth
+=====================================input======================================
 - 123
 - 123
 - 123
@@ -1404,18 +2271,27 @@ exports[`separate.md 1`] = `
 * 123
 * 123
 * 123
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* 123
-* 123
-* 123
 
+=====================================output=====================================
 - 123
 - 123
 - 123
 
+* 123
+* 123
+* 123
+
+================================================================================
 `;
 
 exports[`separate.md 2`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 4
+                                                                                | printWidth
+=====================================input======================================
 - 123
 - 123
 - 123
@@ -1423,18 +2299,27 @@ exports[`separate.md 2`] = `
 * 123
 * 123
 * 123
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* 123
-* 123
-* 123
 
-- 123
-- 123
-- 123
+=====================================output=====================================
+-   123
+-   123
+-   123
 
+*   123
+*   123
+*   123
+
+================================================================================
 `;
 
 exports[`separate.md 3`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 999
+                                                                                | printWidth
+=====================================input======================================
 - 123
 - 123
 - 123
@@ -1442,18 +2327,27 @@ exports[`separate.md 3`] = `
 * 123
 * 123
 * 123
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* 123
-* 123
-* 123
 
+=====================================output=====================================
 - 123
 - 123
 - 123
 
+* 123
+* 123
+* 123
+
+================================================================================
 `;
 
 exports[`separate.md 4`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 0
+                                                                                | printWidth
+=====================================input======================================
 - 123
 - 123
 - 123
@@ -1461,101 +2355,173 @@ exports[`separate.md 4`] = `
 * 123
 * 123
 * 123
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* 123
-* 123
-* 123
 
+=====================================output=====================================
 - 123
 - 123
 - 123
 
+* 123
+* 123
+* 123
+
+================================================================================
 `;
 
 exports[`simple.md 1`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+                                                                                | printWidth
+=====================================input======================================
 - 123
 - 456
 - 789
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* 123
-* 456
-* 789
 
+=====================================output=====================================
+- 123
+- 456
+- 789
+
+================================================================================
 `;
 
 exports[`simple.md 2`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 4
+                                                                                | printWidth
+=====================================input======================================
 - 123
 - 456
 - 789
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* 123
-* 456
-* 789
 
+=====================================output=====================================
+-   123
+-   456
+-   789
+
+================================================================================
 `;
 
 exports[`simple.md 3`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 999
+                                                                                | printWidth
+=====================================input======================================
 - 123
 - 456
 - 789
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* 123
-* 456
-* 789
 
+=====================================output=====================================
+- 123
+- 456
+- 789
+
+================================================================================
 `;
 
 exports[`simple.md 4`] = `
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 0
+                                                                                | printWidth
+=====================================input======================================
 - 123
 - 456
 - 789
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* 123
-* 456
-* 789
 
+=====================================output=====================================
+- 123
+- 456
+- 789
+
+================================================================================
 `;
 
 exports[`start.md 1`] = `
-5. abc
-6. def
-7. ghi
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+                                                                                | printWidth
+=====================================input======================================
 5. abc
 6. def
 7. ghi
 
+=====================================output=====================================
+5. abc
+6. def
+7. ghi
+
+================================================================================
 `;
 
 exports[`start.md 2`] = `
-5. abc
-6. def
-7. ghi
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 4
+                                                                                | printWidth
+=====================================input======================================
 5. abc
 6. def
 7. ghi
 
+=====================================output=====================================
+5. abc
+6. def
+7. ghi
+
+================================================================================
 `;
 
 exports[`start.md 3`] = `
-5. abc
-6. def
-7. ghi
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 999
+                                                                                | printWidth
+=====================================input======================================
 5. abc
 6. def
 7. ghi
 
+=====================================output=====================================
+5. abc
+6. def
+7. ghi
+
+================================================================================
 `;
 
 exports[`start.md 4`] = `
-5. abc
-6. def
-7. ghi
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+====================================options=====================================
+parsers: ["markdown"]
+printWidth: 80
+proseWrap: "always"
+tabWidth: 0
+                                                                                | printWidth
+=====================================input======================================
 5. abc
 6. def
 7. ghi
 
+=====================================output=====================================
+5. abc
+6. def
+7. ghi
+
+================================================================================
 `;

@@ -1,3 +1,24 @@
+# Prettier Website
+
+https://prettier.io/
+
+## Setup
+
+1. Build the Prettier browser libs for the playground by running the following in the project root dir:
+
+   ```sh
+   cd your/path/to/prettier
+   yarn build-docs
+   ```
+
+   (To build for master, use `PULL_REQUEST=true yarn build-docs`)
+
+2. Switch to the `website` dir and start the server:
+   ```sh
+   cd website
+   yarn start
+   ```
+
 ## Configuration
 
 In the project repo, the `docs` folder is used to hold documentation written in markdown. A `blog` folder can be used to hold blog posts written in markdown.
@@ -6,28 +27,28 @@ In the project repo, the `docs` folder is used to hold documentation written in 
 
 Documentation should contain front matter that follows this example:
 
-```
----
-id: doc1 <!-- used for docs to find each other and to map links -->
+```yaml
+id: doc1 # used for docs to find each other and to map links
 title: Document Title
-layout: docs1 <!-- used to determine different sidebar groupings -->
-category: Sidebar Category 1 <!-- Category on the sidebar under which this doc goes -->
-permalink: docs/en/doc1.html <!-- link to the document that is used for site -->
-previous: doc0 <!-- previous doc on sidebar for navigation -->
-next: doc2 <!-- next doc on the sidebar for navigation -->
-<!-- don't include next if this is the last doc; don't include previous if first doc -->
+layout: docs1 # used to determine different sidebar groupings
+category: Sidebar Category 1 # Category on the sidebar under which this doc goes
+permalink: docs/en/doc1.html # link to the document that is used for site
+previous: doc0 # previous doc on sidebar for navigation
+next: doc2 # next doc on the sidebar for navigation
+# don't include next if this is the last doc; don't include previous if first doc
 ---
+
 ```
 
 Blog posts should be written as markdown files with the following front matter:
 
-```
----
+```yaml
 title: Blog Post Title
 author: Author Name
-authorURL: http://twitter.com/author <!-- (or some other link) -->
-authorFBID: 21315325 <!-- id to get author's picture -->
+authorURL: http://twitter.com/author # (or some other link)
+authorFBID: 21315325 # id to get author's picture
 ---
+
 ```
 
 In the blog post you should include a line `<!--truncate-->`. This will determine under which point text will be ignored when generating the preview of your blog post. Blog posts should have the file name format: `yyyy-mm-dd-your-file-name.md`.
@@ -47,6 +68,8 @@ Include your own top-level pages as React components in `pages/`. These componen
 All images and other static assets you wish to include should be placed inside the `static` folder. Any `.css` files provided in `static` will be concatenated to the standard styles provided by Docusaurus and used site-wide.
 
 Files placed in `static/` will be accessible in the following way: `static/img/image.png` will be accessible at `img/image.png`.
+
+Please run <code>yarn svgo _path/to/image.svg_</code> before committing a new SVG to the repository.
 
 ## Using Docusaurus
 

@@ -1,6 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`comments.js 1`] = `
+====================================options=====================================
+parsers: ["flow", "typescript"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
 class A // comment 1
   // comment 2
   extends B {}
@@ -49,7 +54,8 @@ export class SnapshotLogger {
   ) {
   }
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+=====================================output=====================================
 class A // comment 1
   // comment 2
   extends B {}
@@ -91,8 +97,8 @@ class X {
   TEMPLATE =
     // tab index is needed so we can focus, which is needed for keyboard events
     '<div class="ag-large-text" tabindex="0">' +
-      '<div class="ag-large-textarea"></div>' +
-      "</div>";
+    '<div class="ag-large-textarea"></div>' +
+    "</div>";
 }
 
 export class SnapshotLogger {
@@ -102,4 +108,5 @@ export class SnapshotLogger {
   ) {}
 }
 
+================================================================================
 `;

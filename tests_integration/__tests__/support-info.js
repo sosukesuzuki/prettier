@@ -1,6 +1,6 @@
 "use strict";
 
-const prettier = require("../../tests_config/require_prettier");
+const prettier = require("prettier/local");
 const runPrettier = require("../runPrettier");
 const snapshotDiff = require("snapshot-diff");
 
@@ -13,6 +13,7 @@ describe("API getSupportInfo()", () => {
     "1.7.1",
     "1.8.0",
     "1.8.2",
+    "1.16.0",
     undefined
   ];
 
@@ -55,8 +56,8 @@ function getCoreInfo(version) {
             option.type === "int"
               ? { range: option.range }
               : option.type === "choice"
-                ? { choices: option.choices.map(choice => choice.value) }
-                : null
+              ? { choices: option.choices.map(choice => choice.value) }
+              : null
           )
         },
         obj

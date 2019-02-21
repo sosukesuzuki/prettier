@@ -1,6 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`selectors.css 1`] = `
+====================================options=====================================
+parsers: ["css"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
 .a,.b,.c {}
 .r { &, &:hover {} }
 
@@ -295,7 +300,25 @@ exports[`selectors.css 1`] = `
    >>>   .child-one {}
    >>>   .child-two {}
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+/* This matches all XHTML <a> elements, as XHTML is the default unprefixed namespace */
+a {}
+
+/* This matches all SVG <a> elements */
+svg|a {}
+
+/* This matches both XHTML and SVG <a> elements */
+*|a {}
+
+|B {}
+
+ns|* {}
+
+*|* {}
+
+|* {}
+
+=====================================output=====================================
 .a,
 .b,
 .c {
@@ -660,4 +683,29 @@ exports[`selectors.css 1`] = `
   }
 }
 
+/* This matches all XHTML <a> elements, as XHTML is the default unprefixed namespace */
+a {
+}
+
+/* This matches all SVG <a> elements */
+svg|a {
+}
+
+/* This matches both XHTML and SVG <a> elements */
+*|a {
+}
+
+|b {
+}
+
+ns|* {
+}
+
+*|* {
+}
+
+|* {
+}
+
+================================================================================
 `;

@@ -1,6 +1,7 @@
 "use strict";
 
 const React = require("react");
+const PropTypes = require("prop-types");
 
 const GithubButton = props => (
   <a
@@ -15,12 +16,18 @@ const GithubButton = props => (
 );
 
 GithubButton.propTypes = {
-  config: React.PropTypes.object
+  config: PropTypes.object
 };
 
 class Footer extends React.Component {
   url(path) {
-    return this.props.config.baseUrl + "docs/" + this.props.language + path;
+    const language = this.props.language || "en";
+    return `${this.props.config.baseUrl}docs/${language}${path}`;
+  }
+
+  usersUrl() {
+    const language = this.props.language || "en";
+    return `${this.props.config.baseUrl}${language}/users`;
   }
 
   render() {
@@ -40,11 +47,7 @@ class Footer extends React.Component {
           </div>
           <div>
             <h5>Community</h5>
-            <a
-              href={this.props.config.baseUrl + this.props.language + "/users/"}
-            >
-              User Showcase
-            </a>
+            <a href={this.usersUrl()}>User Showcase</a>
             <a
               href="http://stackoverflow.com/questions/tagged/prettier"
               target="_blank"
@@ -82,8 +85,8 @@ class Footer extends React.Component {
 }
 
 Footer.propTypes = {
-  language: React.PropTypes.string,
-  config: React.PropTypes.object
+  language: PropTypes.string,
+  config: PropTypes.object
 };
 
 module.exports = Footer;

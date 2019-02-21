@@ -213,13 +213,13 @@ If it's using in a whitespace-sensitive language, e.g. markdown, you should use 
 
 For example:
 
-* `useTabs`
-  * `tabWidth: 2`
-    * `<indent><align 2><indent><align 2>` -> `<tab><tab><tab><2 space>`
-    * `<indent><align 4><indent><align 2>` -> `<tab><tab><tab><2 space>`
-  * `tabWidth: 4`
-    * `<indent><align 2><indent><align 2>` -> `<tab><tab><tab><2 space>`
-    * `<indent><align 4><indent><align 2>` -> `<tab><tab><tab><2 space>`
+- `useTabs`
+  - `tabWidth: 2`
+    - `<indent><align 2><indent><align 2>` -> `<tab><tab><tab><2 space>`
+    - `<indent><align 4><indent><align 2>` -> `<tab><tab><tab><2 space>`
+  - `tabWidth: 4`
+    - `<indent><align 2><indent><align 2>` -> `<tab><tab><tab><2 space>`
+    - `<indent><align 4><indent><align 2>` -> `<tab><tab><tab><2 space>`
 
 ### markAsRoot
 
@@ -236,6 +236,14 @@ declare function dedentToRoot(doc: Doc): Doc;
 ```
 
 This will dedent the current indentation to the root marked by `markAsRoot`.
+
+### trim
+
+```ts
+declare var trim: Doc;
+```
+
+This will trim any whitespace or tab character on the current line. This is used for preprocessor directives.
 
 ### cursor
 

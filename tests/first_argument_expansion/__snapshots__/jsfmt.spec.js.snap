@@ -1,6 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`test.js 1`] = `
+====================================options=====================================
+parsers: ["babel", "flow", "typescript"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
 setTimeout(function() {
   thing();
 }, 500);
@@ -36,6 +41,28 @@ func(() => {
 func(() => {
   thing();
 }, /regex.*?/);
+
+func(() => {
+  thing();
+}, 1 ? 2 : 3);
+
+func(function() {
+  return thing()
+}, 1 ? 2 : 3);
+
+func(() => {
+  thing();
+}, something() ? someOtherThing() : somethingElse(true, 0));
+
+
+func(() => {
+  thing();
+}, something(longArgumentName, anotherLongArgumentName) ? someOtherThing() : somethingElse(true, 0));
+
+
+func(() => {
+  thing();
+}, something(longArgumentName, anotherLongArgumentName, anotherLongArgumentName, anotherLongArgumentName) ? someOtherThing() : somethingElse(true, 0));
 
 compose((a) => {
   return a.thing;
@@ -88,7 +115,12 @@ setTimeout(
 setTimeout(/* blip */ function() {
   thing();
 }, 500);
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+func((args) => {
+  execute(args);
+}, result => result && console.log("success"))
+
+=====================================output=====================================
 setTimeout(function () {
   thing();
 }, 500);
@@ -125,9 +157,56 @@ func(() => {
   thing();
 }, /regex.*?/);
 
-compose(a => {
-  return a.thing;
-}, b => b * b);
+func(
+  () => {
+    thing();
+  },
+  1 ? 2 : 3
+);
+
+func(
+  function() {
+    return thing();
+  },
+  1 ? 2 : 3
+);
+
+func(
+  () => {
+    thing();
+  },
+  something() ? someOtherThing() : somethingElse(true, 0)
+);
+
+func(
+  () => {
+    thing();
+  },
+  something(longArgumentName, anotherLongArgumentName)
+    ? someOtherThing()
+    : somethingElse(true, 0)
+);
+
+func(
+  () => {
+    thing();
+  },
+  something(
+    longArgumentName,
+    anotherLongArgumentName,
+    anotherLongArgumentName,
+    anotherLongArgumentName
+  )
+    ? someOtherThing()
+    : somethingElse(true, 0)
+);
+
+compose(
+  a => {
+    return a.thing;
+  },
+  b => b * b
+);
 
 somthing.reduce(function (item, thing) {
   return (thing.blah = item);
@@ -197,4 +276,12 @@ setTimeout(
   500
 );
 
+func(
+  args => {
+    execute(args);
+  },
+  result => result && console.log("success")
+);
+
+================================================================================
 `;

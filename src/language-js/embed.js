@@ -1,16 +1,20 @@
 "use strict";
 
-const util = require("../common/util");
-const doc = require("../doc");
-const docUtils = doc.utils;
-const docBuilders = doc.builders;
-const indent = docBuilders.indent;
-const join = docBuilders.join;
-const hardline = docBuilders.hardline;
-const softline = docBuilders.softline;
-const literalline = docBuilders.literalline;
-const concat = docBuilders.concat;
-const dedentToRoot = docBuilders.dedentToRoot;
+const { isBlockComment, hasLeadingComment } = require("./comments");
+
+const {
+  builders: {
+    indent,
+    join,
+    hardline,
+    softline,
+    literalline,
+    concat,
+    group,
+    dedentToRoot
+  },
+  utils: { mapDoc, stripTrailingHardline }
+} = require("../doc");
 
 function embed(path, print, textToDoc /*, options */) {
   const node = path.getValue();
@@ -19,14 +23,26 @@ function embed(path, print, textToDoc /*, options */) {
 
   switch (node.type) {
     case "TemplateLiteral": {
-      const isCss = [isStyledJsx, isStyledComponents, isCssProp].some(isIt =>
-        isIt(path)
-      );
+      const isCss = [
+        isStyledJsx,
+        isStyledComponents,
+        isCssProp,
+        isAngularComponentStyles
+      ].some(isIt => isIt(path));
 
       if (isCss) {
         // Get full template literal with expressions replaced by placeholders
         const rawQuasis = node.quasis.map(q => q.value.raw);
-        const text = rawQuasis.join("@prettier-placeholder");
+        let placeholderID = 0;
+        const text = rawQuasis.reduce((prevVal, currVal, idx) => {
+          return idx == 0
+            ? currVal
+            : prevVal +
+                "@prettier-placeholder-" +
+                placeholderID++ +
+                "-id" +
+                currVal;
+        }, "");
         const doc = textToDoc(text, { parser: "css" });
         return transformCssDoc(doc, path, print);
       }
@@ -40,18 +56,7 @@ function embed(path, print, textToDoc /*, options */) {
        * This intentionally excludes Relay Classic tags, as Prettier does not
        * support Relay Classic formatting.
        */
-      if (
-        parent &&
-        ((parent.type === "TaggedTemplateExpression" &&
-          ((parent.tag.type === "MemberExpression" &&
-            parent.tag.object.name === "graphql" &&
-            parent.tag.property.name === "experimental") ||
-            (parent.tag.type === "Identifier" &&
-              (parent.tag.name === "gql" || parent.tag.name === "graphql")))) ||
-          (parent.type === "CallExpression" &&
-            parent.callee.type === "Identifier" &&
-            parent.callee.name === "graphql"))
-      ) {
+      if (isGraphQL(path)) {
         const expressionDocs = node.expressions
           ? path.map(print, "expressions")
           : [];
@@ -68,7 +73,14 @@ function embed(path, print, textToDoc /*, options */) {
           const templateElement = node.quasis[i];
           const isFirst = i === 0;
           const isLast = i === numQuasis - 1;
-          const text = templateElement.value.raw;
+          const text = templateElement.value.cooked;
+
+          // Bail out if any of the quasis have an invalid escape sequence
+          // (which would make the `cooked` value be `null` or `undefined`)
+          if (typeof text !== "string") {
+            return null;
+          }
+
           const lines = text.split("\n");
           const numLines = lines.length;
           const expressionDoc = expressionDocs[i];
@@ -94,17 +106,11 @@ function embed(path, print, textToDoc /*, options */) {
           if (commentsAndWhitespaceOnly) {
             doc = printGraphqlComments(lines);
           } else {
-            try {
-              doc = docUtils.stripTrailingHardline(
-                textToDoc(text, { parser: "graphql" })
-              );
-            } catch (_error) {
-              // Bail if any part fails to parse.
-              return null;
-            }
+            doc = stripTrailingHardline(textToDoc(text, { parser: "graphql" }));
           }
 
           if (doc) {
+            doc = escapeTemplateCharacters(doc, false);
             if (!isFirst && startsWithBlankLine) {
               parts.push("");
             }
@@ -129,6 +135,14 @@ function embed(path, print, textToDoc /*, options */) {
         ]);
       }
 
+      if (isHtml(path)) {
+        return printHtmlTemplateLiteral(path, print, textToDoc, "html");
+      }
+
+      if (isAngularComponentTemplate(path)) {
+        return printHtmlTemplateLiteral(path, print, textToDoc, "angular");
+      }
+
       break;
     }
 
@@ -145,7 +159,10 @@ function embed(path, print, textToDoc /*, options */) {
             (parentParent.tag.name === "md" ||
               parentParent.tag.name === "markdown")))
       ) {
-        const text = parent.quasis[0].value.cooked;
+        const text = parent.quasis[0].value.raw.replace(
+          /((?:\\\\)*)\\`/g,
+          (_, backslashes) => "\\".repeat(backslashes.length / 2) + "`"
+        );
         const indentation = getIndentation(text);
         const hasIndent = indentation !== "";
         return concat([
@@ -169,7 +186,7 @@ function embed(path, print, textToDoc /*, options */) {
 
   function printMarkdown(text) {
     const doc = textToDoc(text, { parser: "markdown", __inJsTemplate: true });
-    return docUtils.stripTrailingHardline(escapeBackticks(doc));
+    return stripTrailingHardline(escapeTemplateCharacters(doc, true));
   }
 }
 
@@ -178,8 +195,8 @@ function getIndentation(str) {
   return firstMatchedIndent === null ? "" : firstMatchedIndent[1];
 }
 
-function escapeBackticks(doc) {
-  return util.mapDoc(doc, currentDoc => {
+function escapeTemplateCharacters(doc, raw) {
+  return mapDoc(doc, currentDoc => {
     if (!currentDoc.parts) {
       return currentDoc;
     }
@@ -188,7 +205,11 @@ function escapeBackticks(doc) {
 
     currentDoc.parts.forEach(part => {
       if (typeof part === "string") {
-        parts.push(part.replace(/`/g, "\\`"));
+        parts.push(
+          raw
+            ? part.replace(/(\\*)`/g, "$1$1\\`")
+            : part.replace(/([\\`]|\$\{)/g, "\\$1")
+        );
       } else {
         parts.push(part);
       }
@@ -217,7 +238,7 @@ function transformCssDoc(quasisDoc, path, print) {
   }
   return concat([
     "`",
-    indent(concat([hardline, docUtils.stripTrailingHardline(newDoc)])),
+    indent(concat([hardline, stripTrailingHardline(newDoc)])),
     softline,
     "`"
   ]);
@@ -233,7 +254,8 @@ function replacePlaceholders(quasisDoc, expressionDocs) {
   }
 
   const expressions = expressionDocs.slice();
-  const newDoc = docUtils.mapDoc(quasisDoc, doc => {
+  let replaceCounter = 0;
+  const newDoc = mapDoc(quasisDoc, doc => {
     if (!doc || !doc.parts || !doc.parts.length) {
       return doc;
     }
@@ -261,12 +283,16 @@ function replacePlaceholders(quasisDoc, expressionDocs) {
     if (atPlaceholderIndex > -1) {
       const placeholder = parts[atPlaceholderIndex];
       const rest = parts.slice(atPlaceholderIndex + 1);
-
+      const placeholderMatch = placeholder.match(
+        /@prettier-placeholder-(.+)-id([\s\S]*)/
+      );
+      const placeholderID = placeholderMatch[1];
       // When the expression has a suffix appended, like:
       // animation: linear ${time}s ease-out;
-      const suffix = placeholder.slice("@prettier-placeholder".length);
+      const suffix = placeholderMatch[2];
+      const expression = expressions[placeholderID];
 
-      const expression = expressions.shift();
+      replaceCounter++;
       parts = parts
         .slice(0, atPlaceholderIndex)
         .concat(["${", expression, "}" + suffix])
@@ -277,30 +303,32 @@ function replacePlaceholders(quasisDoc, expressionDocs) {
     });
   });
 
-  return expressions.length === 0 ? newDoc : null;
+  return expressions.length === replaceCounter ? newDoc : null;
 }
 
 function printGraphqlComments(lines) {
   const parts = [];
   let seenComment = false;
 
-  lines.map(textLine => textLine.trim()).forEach((textLine, i, array) => {
-    // Lines are either whitespace only, or a comment (with poential whitespace
-    // around it). Drop whitespace-only lines.
-    if (textLine === "") {
-      return;
-    }
+  lines
+    .map(textLine => textLine.trim())
+    .forEach((textLine, i, array) => {
+      // Lines are either whitespace only, or a comment (with poential whitespace
+      // around it). Drop whitespace-only lines.
+      if (textLine === "") {
+        return;
+      }
 
-    if (array[i - 1] === "" && seenComment) {
-      // If a non-first comment is preceded by a blank (whitespace only) line,
-      // add in a blank line.
-      parts.push(concat([hardline, textLine]));
-    } else {
-      parts.push(textLine);
-    }
+      if (array[i - 1] === "" && seenComment) {
+        // If a non-first comment is preceded by a blank (whitespace only) line,
+        // add in a blank line.
+        parts.push(concat([hardline, textLine]));
+      } else {
+        parts.push(textLine);
+      }
 
-    seenComment = true;
-  });
+      seenComment = true;
+    });
 
   // If `lines` was whitespace only, return `null`.
   return parts.length === 0 ? null : join(hardline, parts);
@@ -327,6 +355,59 @@ function isStyledJsx(path) {
 }
 
 /**
+ * Angular Components can have:
+ * - Inline HTML template
+ * - Inline CSS styles
+ *
+ * ...which are both within template literals somewhere
+ * inside of the Component decorator factory.
+ *
+ * E.g.
+ * @Component({
+ *  template: `<div>...</div>`,
+ *  styles: [`h1 { color: blue; }`]
+ * })
+ */
+function isAngularComponentStyles(path) {
+  return isPathMatch(
+    path,
+    [
+      node => node.type === "TemplateLiteral",
+      (node, name) => node.type === "ArrayExpression" && name === "elements",
+      (node, name) =>
+        node.type === "Property" &&
+        node.key.type === "Identifier" &&
+        node.key.name === "styles" &&
+        name === "value"
+    ].concat(getAngularComponentObjectExpressionPredicates())
+  );
+}
+function isAngularComponentTemplate(path) {
+  return isPathMatch(
+    path,
+    [
+      node => node.type === "TemplateLiteral",
+      (node, name) =>
+        node.type === "Property" &&
+        node.key.type === "Identifier" &&
+        node.key.name === "template" &&
+        name === "value"
+    ].concat(getAngularComponentObjectExpressionPredicates())
+  );
+}
+function getAngularComponentObjectExpressionPredicates() {
+  return [
+    (node, name) => node.type === "ObjectExpression" && name === "properties",
+    (node, name) =>
+      node.type === "CallExpression" &&
+      node.callee.type === "Identifier" &&
+      node.callee.name === "Component" &&
+      name === "arguments",
+    (node, name) => node.type === "Decorator" && name === "expression"
+  ];
+}
+
+/**
  * styled-components template literals
  */
 function isStyledComponents(path) {
@@ -344,7 +425,7 @@ function isStyledComponents(path) {
         // styled.foo``
         isStyledIdentifier(tag.object) ||
         // Component.extend``
-        (/^[A-Z]/.test(tag.object.name) && tag.property.name === "extend")
+        isStyledExtend(tag)
       );
 
     case "CallExpression":
@@ -352,9 +433,11 @@ function isStyledComponents(path) {
         // styled(Component)``
         isStyledIdentifier(tag.callee) ||
         (tag.callee.type === "MemberExpression" &&
-          // styled.foo.attr({})``
           ((tag.callee.object.type === "MemberExpression" &&
-            isStyledIdentifier(tag.callee.object.object)) ||
+            // styled.foo.attr({})``
+            (isStyledIdentifier(tag.callee.object.object) ||
+              // Component.extend.attr({)``
+              isStyledExtend(tag.callee.object))) ||
             // styled(Component).attr({})``
             (tag.callee.object.type === "CallExpression" &&
               isStyledIdentifier(tag.callee.object.callee))))
@@ -386,6 +469,159 @@ function isCssProp(path) {
 
 function isStyledIdentifier(node) {
   return node.type === "Identifier" && node.name === "styled";
+}
+
+function isStyledExtend(node) {
+  return /^[A-Z]/.test(node.object.name) && node.property.name === "extend";
+}
+
+/*
+ * react-relay and graphql-tag
+ * graphql`...`
+ * graphql.experimental`...`
+ * gql`...`
+ * GraphQL comment block
+ *
+ * This intentionally excludes Relay Classic tags, as Prettier does not
+ * support Relay Classic formatting.
+ */
+function isGraphQL(path) {
+  const node = path.getValue();
+  const parent = path.getParentNode();
+
+  return (
+    hasLanguageComment(node, "GraphQL") ||
+    (parent &&
+      ((parent.type === "TaggedTemplateExpression" &&
+        ((parent.tag.type === "MemberExpression" &&
+          parent.tag.object.name === "graphql" &&
+          parent.tag.property.name === "experimental") ||
+          (parent.tag.type === "Identifier" &&
+            (parent.tag.name === "gql" || parent.tag.name === "graphql")))) ||
+        (parent.type === "CallExpression" &&
+          parent.callee.type === "Identifier" &&
+          parent.callee.name === "graphql")))
+  );
+}
+
+function hasLanguageComment(node, languageName) {
+  // This checks for a leading comment that is exactly `/* GraphQL */`
+  // In order to be in line with other implementations of this comment tag
+  // we will not trim the comment value and we will expect exactly one space on
+  // either side of the GraphQL string
+  // Also see ./clean.js
+  return hasLeadingComment(
+    node,
+    comment => isBlockComment(comment) && comment.value === ` ${languageName} `
+  );
+}
+
+function isPathMatch(path, predicateStack) {
+  const stack = path.stack.slice();
+
+  let name = null;
+  let node = stack.pop();
+
+  for (const predicate of predicateStack) {
+    if (node === undefined) {
+      return false;
+    }
+
+    // skip index/array
+    if (typeof name === "number") {
+      name = stack.pop();
+      node = stack.pop();
+    }
+
+    if (!predicate(node, name)) {
+      return false;
+    }
+
+    name = stack.pop();
+    node = stack.pop();
+  }
+
+  return true;
+}
+
+/**
+ *     - html`...`
+ *     - HTML comment block
+ */
+function isHtml(path) {
+  const node = path.getValue();
+  return (
+    hasLanguageComment(node, "HTML") ||
+    isPathMatch(path, [
+      node => node.type === "TemplateLiteral",
+      (node, name) =>
+        node.type === "TaggedTemplateExpression" &&
+        node.tag.type === "Identifier" &&
+        node.tag.name === "html" &&
+        name === "quasi"
+    ])
+  );
+}
+
+function printHtmlTemplateLiteral(path, print, textToDoc, parser) {
+  const node = path.getValue();
+
+  const placeholderPattern = "PRETTIER_HTML_PLACEHOLDER_(\\d+)_IN_JS";
+  const placeholders = node.expressions.map(
+    (_, i) => `PRETTIER_HTML_PLACEHOLDER_${i}_IN_JS`
+  );
+
+  const text = node.quasis
+    .map((quasi, index, quasis) =>
+      index === quasis.length - 1
+        ? quasi.value.raw
+        : quasi.value.raw + placeholders[index]
+    )
+    .join("");
+
+  const expressionDocs = path.map(print, "expressions");
+
+  if (expressionDocs.length === 0 && text.trim().length === 0) {
+    return "``";
+  }
+
+  const contentDoc = mapDoc(
+    stripTrailingHardline(textToDoc(text, { parser })),
+    doc => {
+      const placeholderRegex = new RegExp(placeholderPattern, "g");
+      const hasPlaceholder =
+        typeof doc === "string" && placeholderRegex.test(doc);
+
+      if (!hasPlaceholder) {
+        return doc;
+      }
+
+      const parts = [];
+
+      const components = doc.split(placeholderRegex);
+      for (let i = 0; i < components.length; i++) {
+        const component = components[i];
+
+        if (i % 2 === 0) {
+          if (component) {
+            parts.push(component);
+          }
+          continue;
+        }
+
+        const placeholderIndex = +component;
+        parts.push(
+          concat(["${", group(expressionDocs[placeholderIndex]), "}"])
+        );
+      }
+
+      return concat(parts);
+    }
+  );
+
+  return group(
+    concat(["`", indent(concat([hardline, group(contentDoc)])), softline, "`"])
+  );
 }
 
 module.exports = embed;

@@ -1,9 +1,12 @@
 "use strict";
 
-const remarkFrontmatter = require("remark-frontmatter");
 const remarkParse = require("remark-parse");
 const unified = require("unified");
-const util = require("../common/util");
+const pragma = require("./pragma");
+const parseFrontMatter = require("../utils/front-matter");
+const { mapAst, INLINE_NODE_WRAPPER_TYPES } = require("./utils");
+const mdx = require("./mdx");
+const remarkMath = require("remark-math");
 
 /**
  * based on [MDAST](https://github.com/syntax-tree/mdast) with following modifications:
@@ -19,112 +22,104 @@ const util = require("../common/util");
  * interface Sentence { children: Array<Word | Whitespace> }
  * interface InlineCode { children: Array<Sentence> }
  */
-function parse(text /*, parsers, opts*/) {
-  const processor = unified()
-    .use(remarkParse, { footnotes: true, commonmark: true })
-    .use(remarkFrontmatter, ["yaml", "toml"])
-    .use(restoreUnescapedCharacter(text))
-    .use(mergeContinuousTexts)
-    .use(transformInlineCode)
-    .use(splitText);
-  return processor.runSync(processor.parse(text));
+function createParse({ isMDX }) {
+  return text => {
+    const processor = unified()
+      .use(
+        remarkParse,
+        Object.assign(
+          {
+            footnotes: true,
+            commonmark: true
+          },
+          isMDX && { blocks: [mdx.BLOCKS_REGEX] }
+        )
+      )
+      .use(frontMatter)
+      .use(remarkMath)
+      .use(isMDX ? mdx.esSyntax : identity)
+      .use(liquid)
+      .use(isMDX ? htmlToJsx : identity);
+    return processor.runSync(processor.parse(text));
+  };
 }
 
-function map(ast, handler) {
-  return (function preorder(node, index, parentNode) {
-    const newNode = Object.assign({}, handler(node, index, parentNode));
-    if (newNode.children) {
-      newNode.children = newNode.children.map((child, index) => {
-        return preorder(child, index, newNode);
+function identity(x) {
+  return x;
+}
+
+function htmlToJsx() {
+  return ast =>
+    mapAst(ast, (node, index, [parent]) => {
+      if (
+        node.type !== "html" ||
+        /^<!--[\s\S]*-->$/.test(node.value) ||
+        INLINE_NODE_WRAPPER_TYPES.indexOf(parent.type) !== -1
+      ) {
+        return node;
+      }
+
+      return Object.assign({}, node, { type: "jsx" });
+    });
+}
+
+function frontMatter() {
+  const proto = this.Parser.prototype;
+  proto.blockMethods = ["frontMatter"].concat(proto.blockMethods);
+  proto.blockTokenizers.frontMatter = tokenizer;
+
+  function tokenizer(eat, value) {
+    const parsed = parseFrontMatter(value);
+
+    if (parsed.frontMatter) {
+      return eat(parsed.frontMatter.raw)(parsed.frontMatter);
+    }
+  }
+  tokenizer.onlyAtStart = true;
+}
+
+function liquid() {
+  const proto = this.Parser.prototype;
+  const methods = proto.inlineMethods;
+  methods.splice(methods.indexOf("text"), 0, "liquid");
+  proto.inlineTokenizers.liquid = tokenizer;
+
+  function tokenizer(eat, value) {
+    const match = value.match(/^({%[\s\S]*?%}|{{[\s\S]*?}})/);
+
+    if (match) {
+      return eat(match[0])({
+        type: "liquidNode",
+        value: match[0]
       });
     }
-    return newNode;
-  })(ast, null, null);
+  }
+  tokenizer.locator = function(value, fromIndex) {
+    return value.indexOf("{", fromIndex);
+  };
 }
 
-function transformInlineCode() {
-  return ast =>
-    map(ast, node => {
-      if (node.type !== "inlineCode") {
-        return node;
-      }
+const baseParser = {
+  astFormat: "mdast",
+  hasPragma: pragma.hasPragma,
+  locStart: node => node.position.start.offset,
+  locEnd: node => node.position.end.offset,
+  preprocess: text => text.replace(/\n\s+$/, "\n") // workaround for https://github.com/remarkjs/remark/issues/350
+};
 
-      return Object.assign({}, node, {
-        value: node.value.replace(/\s+/g, " ")
-      });
-    });
-}
+const markdownParser = Object.assign({}, baseParser, {
+  parse: createParse({ isMDX: false })
+});
 
-function restoreUnescapedCharacter(originalText) {
-  return () => ast =>
-    map(ast, node => {
-      return node.type !== "text"
-        ? node
-        : Object.assign({}, node, {
-            value:
-              node.value !== "*" &&
-              node.value !== "_" && // handle these two cases in printer
-              node.value.length === 1 &&
-              node.position.end.offset - node.position.start.offset > 1
-                ? originalText.slice(
-                    node.position.start.offset,
-                    node.position.end.offset
-                  )
-                : node.value
-          });
-    });
-}
+const mdxParser = Object.assign({}, baseParser, {
+  parse: createParse({ isMDX: true })
+});
 
-function mergeContinuousTexts() {
-  return ast =>
-    map(ast, node => {
-      if (!node.children) {
-        return node;
-      }
-      const children = node.children.reduce((current, child) => {
-        const lastChild = current[current.length - 1];
-        if (lastChild && lastChild.type === "text" && child.type === "text") {
-          current.splice(-1, 1, {
-            type: "text",
-            value: lastChild.value + child.value,
-            position: {
-              start: lastChild.position.start,
-              end: child.position.end
-            }
-          });
-        } else {
-          current.push(child);
-        }
-        return current;
-      }, []);
-      return Object.assign({}, node, { children });
-    });
-}
-
-function splitText() {
-  return ast =>
-    map(ast, (node, index, parentNode) => {
-      if (node.type !== "text") {
-        return node;
-      }
-
-      let value = node.value;
-
-      if (parentNode.type === "paragraph") {
-        if (index === 0) {
-          value = value.trimLeft();
-        }
-        if (index === parentNode.children.length - 1) {
-          value = value.trimRight();
-        }
-      }
-
-      return {
-        type: "sentence",
-        position: node.position,
-        children: util.splitText(value)
-      };
-    });
-}
-
-module.exports = parse;
+module.exports = {
+  parsers: {
+    remark: markdownParser,
+    // TODO: Delete this in 2.0
+    markdown: markdownParser,
+    mdx: mdxParser
+  }
+};

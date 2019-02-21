@@ -34,6 +34,28 @@ func(() => {
   thing();
 }, /regex.*?/);
 
+func(() => {
+  thing();
+}, 1 ? 2 : 3);
+
+func(function() {
+  return thing()
+}, 1 ? 2 : 3);
+
+func(() => {
+  thing();
+}, something() ? someOtherThing() : somethingElse(true, 0));
+
+
+func(() => {
+  thing();
+}, something(longArgumentName, anotherLongArgumentName) ? someOtherThing() : somethingElse(true, 0));
+
+
+func(() => {
+  thing();
+}, something(longArgumentName, anotherLongArgumentName, anotherLongArgumentName, anotherLongArgumentName) ? someOtherThing() : somethingElse(true, 0));
+
 compose((a) => {
   return a.thing;
 }, b => b * b);
@@ -85,3 +107,7 @@ setTimeout(
 setTimeout(/* blip */ function() {
   thing();
 }, 500);
+
+func((args) => {
+  execute(args);
+}, result => result && console.log("success"))

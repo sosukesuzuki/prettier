@@ -34,12 +34,25 @@ function parse(text) {
     const matches = error.message.match(/on line (\d+)/);
     if (matches) {
       throw createError(error.message, {
-        start: { line: +matches[1], column: 0 },
-        end: { line: +matches[1], column: 80 }
+        start: { line: Number(matches[1]), column: 0 }
       });
     } else {
       throw error;
     }
   }
 }
-module.exports = parse;
+
+module.exports = {
+  parsers: {
+    glimmer: {
+      parse,
+      astFormat: "glimmer",
+      locStart(node) {
+        return node.loc && node.loc.start;
+      },
+      locEnd(node) {
+        return node.loc && node.loc.end;
+      }
+    }
+  }
+};

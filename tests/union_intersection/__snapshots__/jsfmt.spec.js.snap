@@ -1,6 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`test.js 1`] = `
+====================================options=====================================
+parsers: ["flow"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
 type T5 = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "11" | "12" | "13";
 
 type T6 = "a-long-string" | "another-long-string" | "yet-another-long-string" | "one-more-for-good-measure";
@@ -49,7 +54,19 @@ type Props = {
       }
   ) => void
 };
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+declare class FormData {
+  append(
+    options?:
+      | string
+      | {
+          filepath?: string,
+          filename?: string
+        }
+  ): void;
+}
+
+=====================================output=====================================
 type T5 =
   | "1"
   | "2"
@@ -118,4 +135,16 @@ type Props = {
   ) => void
 };
 
+declare class FormData {
+  append(
+    options?:
+      | string
+      | {
+          filepath?: string,
+          filename?: string
+        }
+  ): void;
+}
+
+================================================================================
 `;

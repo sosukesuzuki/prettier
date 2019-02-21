@@ -5,6 +5,7 @@ this.isTabActionBar((e.target || e.srcElement) as HTMLElement);
 start + (yearSelectTotal as number)
 scrollTop > (visibilityHeight as number)
 export default class Column<T> extends (RcTable.Column as React.ComponentClass<ColumnProps<T>,ColumnProps<T>,ColumnProps<T>,ColumnProps<T>>) {}
+export const MobxTypedForm = class extends (Form as { new (): any }) {}
 export abstract class MobxTypedForm extends (Form as { new (): any }) {}
 ({}) as {};
 function*g() {
@@ -21,6 +22,7 @@ const state = JSON.stringify({
 } as State);
 
 (foo.bar as Baz) = [bar];
+(foo.bar as any)++;
 
 (bValue as boolean) ? 0 : -1;
 <boolean>bValue ? 0 : -1;

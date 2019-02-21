@@ -1,31 +1,18 @@
 "use strict";
 
 const printer = require("./printer-graphql");
-
-// Based on:
-// https://github.com/github/linguist/blob/master/lib/linguist/languages.yml
+const options = require("./options");
+const createLanguage = require("../utils/create-language");
 
 const languages = [
-  {
-    name: "GraphQL",
-    since: "1.5.0",
-    parsers: ["graphql"],
-    extensions: [".graphql", ".gql"],
-    tmScope: "source.graphql",
-    aceMode: "text",
-    liguistLanguageId: 139,
-    vscodeLanguageIds: ["graphql"]
-  }
+  createLanguage(require("linguist-languages/data/graphql"), {
+    override: {
+      since: "1.5.0",
+      parsers: ["graphql"],
+      vscodeLanguageIds: ["graphql"]
+    }
+  })
 ];
-
-const parsers = {
-  graphql: {
-    get parse() {
-      return eval("require")("./parser-graphql");
-    },
-    astFormat: "graphql"
-  }
-};
 
 const printers = {
   graphql: printer
@@ -33,6 +20,6 @@ const printers = {
 
 module.exports = {
   languages,
-  parsers,
+  options,
   printers
 };

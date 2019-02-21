@@ -1,14 +1,14 @@
 "use strict";
 
-const concat = require("../../../src/doc").builders.concat;
+const prettier = require("prettier/local");
+const concat = prettier.doc.builders.concat;
 
 module.exports = {
   languages: [
     {
       name: "foo",
       parsers: ["foo-parser"],
-      extensions: [".foo"],
-      since: "1.0.0"
+      extensions: [".foo"]
     }
   ],
   parsers: {

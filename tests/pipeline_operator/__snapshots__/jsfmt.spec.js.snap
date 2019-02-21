@@ -1,6 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`pipeline_operator.js 1`] = `
+====================================options=====================================
+parsers: ["babel"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
 a |> b |> c;
 
 a |> (b |> c);
@@ -25,7 +30,11 @@ function createPerson (attrs) {
     |> format('name', /^[a-z]$/i)
     |> Person.insertIntoDatabase;
 }
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+foo |> (bar ?? baz);
+(foo |> bar) ?? baz;
+
+=====================================output=====================================
 a |> b |> c;
 
 a |> (b |> c);
@@ -49,4 +58,8 @@ function createPerson(attrs) {
     |> Person.insertIntoDatabase;
 }
 
+foo |> bar ?? baz;
+(foo |> bar) ?? baz;
+
+================================================================================
 `;

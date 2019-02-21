@@ -1,6 +1,16 @@
--   id: prettier
-    name: prettier
-    entry: prettier --write
-    language: node
-    # From https://github.com/prettier/prettier/blob/133303f47a30f6b3e46ffdf9d5c2d6609d65c416/src/options.js#L32-L42
-    files: \.(css|less|scss|html|ts|tsx|graphql|gql|json|js|jsx)$
+- id: prettier
+  name: prettier
+  entry: prettier --write
+  language: node
+  files: "\\.(\
+    css|less|scss\
+    |graphql|gql\
+    |html\
+    |js|jsx\
+    |json\
+    |md|markdown|mdown|mkdn\
+    |mdx\
+    |ts|tsx\
+    |vue\
+    |yaml|yml\
+    )$"
