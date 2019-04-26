@@ -42,6 +42,29 @@ Examples:
 
 -->
 
+- JavaScript: Do not hug sequence expression in object properties ([#6088] by [@evilebottnawi])
+
+  <!-- prettier-ignore -->
+  ```js
+  // Input
+  const a = {
+    someKey: 
+      (longLongLongLongLongLongLongLongLongLongLongLongLongLongName, shortName)
+  };
+
+  // Output (Prettier stable)
+  const a = {
+    someKey: (longLongLongLongLongLongLongLongLongLongLongLongLongLongName,
+    shortName)
+  };
+
+  // Output (Prettier master)
+  const a = {
+    someKey: 
+      (longLongLongLongLongLongLongLongLongLongLongLongLongLongName, shortName)
+  };
+  ```
+
 - JavaScript: Fix closure compiler typecasts ([#5947] by [@jridgewell])
 
   If a closing parenthesis follows after a typecast in an inner expression, the typecast would wrap everything to the that following parenthesis.
