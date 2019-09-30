@@ -376,12 +376,17 @@ function printTernaryOperator(path, options, print, operatorOptions) {
   // We want a whole chain of ConditionalExpressions to all
   // break if any of them break. That means we should only group around the
   // outer-most ConditionalExpression.
+  const shouldBreak =
+    (alternateNode &&
+      alternateNode.type === operatorOptions.conditionalNodeType) ||
+    (consequentNode &&
+      consequentNode.type === operatorOptions.conditionalNodeType);
   const maybeGroup = doc =>
     operatorOptions.breakNested
       ? parent === firstNonConditionalParent
-        ? group(doc)
+        ? group(doc, { shouldBreak })
         : doc
-      : group(doc);
+      : group(doc, { shouldBreak });
 
   // Break the closing paren to keep the chain right after it:
   // (a
