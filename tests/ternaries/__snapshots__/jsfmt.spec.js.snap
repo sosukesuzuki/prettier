@@ -2438,7 +2438,11 @@ a => a ? a : a
 a => a ? aasdasdasdasdasdasdaaasdasdasdasdasdasdasdasdasdasdasdasdasdaaaaaa : a
 
 =====================================output=====================================
-debug ? (this.state.isVisible ? "partially visible" : "hidden") : null;
+debug
+  ? this.state.isVisible
+    ? "partially visible"
+    : "hidden"
+  : null;
 debug
   ? this.state.isVisible && somethingComplex
     ? "partially visible"
@@ -2475,7 +2479,11 @@ a => a ? a : a
 a => a ? aasdasdasdasdasdasdaaasdasdasdasdasdasdasdasdasdasdasdasdasdaaaaaa : a
 
 =====================================output=====================================
-debug ? (this.state.isVisible ? "partially visible" : "hidden") : null;
+debug
+    ? this.state.isVisible
+        ? "partially visible"
+        : "hidden"
+    : null;
 debug
     ? this.state.isVisible && somethingComplex
         ? "partially visible"
@@ -2512,7 +2520,11 @@ a => a ? a : a
 a => a ? aasdasdasdasdasdasdaaasdasdasdasdasdasdasdasdasdasdasdasdasdaaaaaa : a
 
 =====================================output=====================================
-debug ? (this.state.isVisible ? "partially visible" : "hidden") : null;
+debug
+	? this.state.isVisible
+		? "partially visible"
+		: "hidden"
+	: null;
 debug
 	? this.state.isVisible && somethingComplex
 		? "partially visible"
@@ -2550,7 +2562,11 @@ a => a ? a : a
 a => a ? aasdasdasdasdasdasdaaasdasdasdasdasdasdasdasdasdasdasdasdasdaaaaaa : a
 
 =====================================output=====================================
-debug ? (this.state.isVisible ? "partially visible" : "hidden") : null;
+debug
+	? this.state.isVisible
+		? "partially visible"
+		: "hidden"
+	: null;
 debug
 	? this.state.isVisible && somethingComplex
 		? "partially visible"
