@@ -165,7 +165,7 @@ func(
 );
 
 func(
-  function() {
+  function () {
     return thing();
   },
   1 ? 2 : 3
