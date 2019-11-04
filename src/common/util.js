@@ -239,7 +239,8 @@ function setLocEnd(node, index) {
 const PRECEDENCE = {};
 [
   ["|>"],
-  ["||", "??"],
+  ["??"],
+  ["||"],
   ["&&"],
   ["|"],
   ["^"],
@@ -341,6 +342,7 @@ function startsWithNoLookaheadToken(node, forbidFunctionClassAndDoExpr) {
     case "ObjectExpression":
       return true;
     case "MemberExpression":
+    case "OptionalMemberExpression":
       return startsWithNoLookaheadToken(
         node.object,
         forbidFunctionClassAndDoExpr
@@ -352,6 +354,7 @@ function startsWithNoLookaheadToken(node, forbidFunctionClassAndDoExpr) {
       }
       return startsWithNoLookaheadToken(node.tag, forbidFunctionClassAndDoExpr);
     case "CallExpression":
+    case "OptionalCallExpression":
       if (node.callee.type === "FunctionExpression") {
         // IIFEs are always already parenthesized
         return false;
@@ -500,10 +503,7 @@ function printString(raw, options, isDirectiveLiteral) {
       options.parser === "css" ||
       options.parser === "less" ||
       options.parser === "scss" ||
-      options.parentParser === "html" ||
-      options.parentParser === "vue" ||
-      options.parentParser === "angular" ||
-      options.parentParser === "lwc"
+      options.embeddedInHtml
     )
   );
 }
@@ -576,6 +576,35 @@ function getMaxContinuousCount(str, target) {
     (maxCount, result) => Math.max(maxCount, result.length / target.length),
     0
   );
+}
+
+function getMinNotPresentContinuousCount(str, target) {
+  const matches = str.match(
+    new RegExp(`(${escapeStringRegexp(target)})+`, "g")
+  );
+
+  if (matches === null) {
+    return 0;
+  }
+
+  const countPresent = new Map();
+  let max = 0;
+
+  for (const match of matches) {
+    const count = match.length / target.length;
+    countPresent.set(count, true);
+    if (count > max) {
+      max = count;
+    }
+  }
+
+  for (let i = 1; i < max; i++) {
+    if (!countPresent.get(i)) {
+      return i;
+    }
+  }
+
+  return max + 1;
 }
 
 function getStringWidth(text) {
@@ -681,6 +710,7 @@ module.exports = {
   replaceEndOfLineWith,
   getStringWidth,
   getMaxContinuousCount,
+  getMinNotPresentContinuousCount,
   getPrecedence,
   shouldFlatten,
   isBitwiseOperator,
