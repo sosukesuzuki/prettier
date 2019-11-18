@@ -36,7 +36,6 @@ const {
   insideAtRuleNode,
   insideURLFunctionInImportAtRuleNode,
   isKeyframeAtRuleKeywords,
-  isHTMLTag,
   isWideKeywords,
   isSCSS,
   isLastNode,
@@ -119,7 +118,7 @@ function genericPrint(path, options, print) {
       const rawText = node.raws.text || node.text;
       // Workaround a bug where the location is off.
       // https://github.com/postcss/postcss-scss/issues/63
-      if (text.indexOf(rawText) === -1) {
+      if (!text.includes(rawText)) {
         if (node.raws.inline) {
           return concat(["// ", rawText]);
         }
@@ -341,8 +340,7 @@ function genericPrint(path, options, print) {
         prevNode.type === "selector-nesting"
           ? node.value
           : adjustNumbers(
-              isHTMLTag(node.value) ||
-                isKeyframeAtRuleKeywords(path, node.value)
+              isKeyframeAtRuleKeywords(path, node.value)
                 ? node.value.toLowerCase()
                 : node.value
             )
@@ -514,7 +512,7 @@ function genericPrint(path, options, print) {
         // Ignore escape `\`
         if (
           iNode.value &&
-          iNode.value.indexOf("\\") !== -1 &&
+          iNode.value.includes("\\") &&
           iNextNode &&
           iNextNode.type !== "value-comment"
         ) {
@@ -593,7 +591,8 @@ function genericPrint(path, options, print) {
           (isAdditionNode(iNode) || isSubtractionNode(iNode)) &&
           i === 0 &&
           (iNextNode.type === "value-number" || iNextNode.isHex) &&
-          (parentParentNode && isColorAdjusterFuncNode(parentParentNode)) &&
+          parentParentNode &&
+          isColorAdjusterFuncNode(parentParentNode) &&
           !hasEmptyRawBefore(iNextNode);
 
         const requireSpaceBeforeOperator =
@@ -739,6 +738,9 @@ function genericPrint(path, options, print) {
 
       const isSCSSMapItem = isSCSSMapItemNode(path);
 
+      const lastItem = node.groups[node.groups.length - 1];
+      const isLastItemComment = lastItem && lastItem.type === "value-comment";
+
       return group(
         concat([
           node.open ? path.call(print, "open") : "",
@@ -772,7 +774,8 @@ function genericPrint(path, options, print) {
             ])
           ),
           ifBreak(
-            isSCSS(options.parser, options.originalText) &&
+            !isLastItemComment &&
+              isSCSS(options.parser, options.originalText) &&
               isSCSSMapItem &&
               shouldPrintComma(options)
               ? ","
@@ -904,7 +907,7 @@ const STRING_REGEX = /(['"])(?:(?!\1)[^\\]|\\[\s\S])*\1/g;
 const NUMBER_REGEX = /(?:\d*\.\d+|\d+\.?)(?:[eE][+-]?\d+)?/g;
 const STANDARD_UNIT_REGEX = /[a-zA-Z]+/g;
 const WORD_PART_REGEX = /[$@]?[a-zA-Z_\u0080-\uFFFF][\w\-\u0080-\uFFFF]*/g;
-const ADJUST_NUMBERS_REGEX = RegExp(
+const ADJUST_NUMBERS_REGEX = new RegExp(
   STRING_REGEX.source +
     `|` +
     `(${WORD_PART_REGEX.source})?` +

@@ -207,10 +207,10 @@ function genericPrint(path, options, print) {
       const shouldHugContent =
         node.children.length === 1 &&
         node.firstChild.type === "interpolation" &&
-        (node.firstChild.isLeadingSpaceSensitive &&
-          !node.firstChild.hasLeadingSpaces) &&
-        (node.lastChild.isTrailingSpaceSensitive &&
-          !node.lastChild.hasTrailingSpaces);
+        node.firstChild.isLeadingSpaceSensitive &&
+        !node.firstChild.hasLeadingSpaces &&
+        node.lastChild.isTrailingSpaceSensitive &&
+        !node.lastChild.hasTrailingSpaces;
       const attrGroupId = Symbol("element-attr-group-id");
       return concat([
         group(
@@ -631,7 +631,7 @@ function printOpeningTag(path, options, print) {
                     typeof ignoreAttributeData === "boolean"
                       ? () => ignoreAttributeData
                       : Array.isArray(ignoreAttributeData)
-                      ? attr => ignoreAttributeData.indexOf(attr.rawName) !== -1
+                      ? attr => ignoreAttributeData.includes(attr.rawName)
                       : () => false;
                   return path.map(attrPath => {
                     const attr = attrPath.getValue();
