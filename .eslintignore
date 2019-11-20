@@ -2,6 +2,7 @@
 /tests/**/*.js
 !/tests/**/jsfmt.spec.js
 !/**/.eslintrc.js
+/tmp/**
 /test.js
 /scripts/build/shims
 /scripts/release/node_modules

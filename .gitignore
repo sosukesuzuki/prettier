@@ -3,6 +3,7 @@
 /scripts/release/node_modules
 *.log
 /errors
+/tmp
 /test.js
 /test.ts
 /test.css
