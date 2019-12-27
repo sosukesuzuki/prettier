@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`mapped_type.ts 1`] = `
+====================================options=====================================
+parsers: ["typescript"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
+type A = { [P in keyof T]: T[P] };
+type B = { [P in keyof T]?: T[P] };
+type C = { readonly [P in keyof T]: T[P] };
+type D = { readonly [P in keyof T]?: T[P] };
+type E = { [P in keyof T] };
+type F = { readonly [P in keyof T] };
+
+=====================================output=====================================
+type A = { [P in keyof T]: T[P] };
+type B = { [P in keyof T]?: T[P] };
+type C = { readonly [P in keyof T]: T[P] };
+type D = { readonly [P in keyof T]?: T[P] };
+type E = { [P in keyof T] };
+type F = { readonly [P in keyof T] };
+
+================================================================================
+`;
