@@ -194,6 +194,7 @@ function isLeadingSpaceSensitiveNode(node) {
     if (
       !node.prev &&
       (node.parent.type === "root" ||
+        (isPreLikeNode(node) && node.parent) ||
         isScriptLikeTag(node.parent) ||
         !isFirstChildLeadingSpaceSensitiveCssDisplay(node.parent.cssDisplay))
     ) {
@@ -235,6 +236,7 @@ function isTrailingSpaceSensitiveNode(node) {
   if (
     !node.next &&
     (node.parent.type === "root" ||
+      (isPreLikeNode(node) && node.parent) ||
       isScriptLikeTag(node.parent) ||
       !isLastChildTrailingSpaceSensitiveCssDisplay(node.parent.cssDisplay))
   ) {
@@ -359,7 +361,8 @@ function inferScriptParser(node) {
       node.attrMap.type === "module" ||
       node.attrMap.type === "text/javascript" ||
       node.attrMap.type === "text/babel" ||
-      node.attrMap.type === "application/javascript"
+      node.attrMap.type === "application/javascript" ||
+      node.attrMap.lang === "jsx"
     ) {
       return "babel";
     }

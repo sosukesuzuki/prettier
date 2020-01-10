@@ -380,6 +380,7 @@ function genericPrint(path, options, print) {
               ])
             )
           : "",
+        n.repeatable ? " repeatable" : "",
         concat([" on ", join(" | ", path.map(print, "locations"))])
       ]);
     }
@@ -653,7 +654,7 @@ function canAttachComment(node) {
 function printComment(commentPath) {
   const comment = commentPath.getValue();
   if (comment.kind === "Comment") {
-    return "#" + comment.value.trimRight();
+    return "#" + comment.value.trimEnd();
   }
 
   throw new Error("Not a comment: " + JSON.stringify(comment));

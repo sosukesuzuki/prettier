@@ -230,7 +230,7 @@ function genericPrint(path, options, print) {
       const value =
         parentNode.type === "root" &&
         privateUtil.getLast(parentNode.children) === node
-          ? node.value.trimRight()
+          ? node.value.trimEnd()
           : node.value;
       const isHtmlComment = /^<!--[\s\S]*-->$/.test(value);
       return concat(
@@ -254,6 +254,20 @@ function genericPrint(path, options, print) {
       return printChildren(path, options, print, {
         processor: (childPath, index) => {
           const prefix = getPrefix();
+          const childNode = childPath.getValue();
+
+          if (
+            childNode.children.length === 2 &&
+            childNode.children[1].type === "html" &&
+            childNode.children[0].position.start.column !==
+              childNode.children[1].position.start.column
+          ) {
+            return concat([
+              prefix,
+              printListItem(childPath, options, print, prefix)
+            ]);
+          }
+
           return concat([
             prefix,
             align(
@@ -496,6 +510,17 @@ function getAncestorNode(path, typeOrTypes) {
 }
 
 function printLine(path, value, options) {
+  const greatGrandParentNode = path.getParentNode(2);
+  if (greatGrandParentNode && greatGrandParentNode.type === "listItem") {
+    const parentNode = path.getParentNode();
+    const grandParentNode = path.getParentNode(1);
+    const index = grandParentNode.children.indexOf(parentNode);
+    const prevGrandParentNode = grandParentNode.children[index - 1];
+    if (prevGrandParentNode && prevGrandParentNode.type === "break") {
+      return "";
+    }
+  }
+
   if (options.proseWrap === "preserve" && value === "\n") {
     return hardline;
   }
@@ -793,13 +818,21 @@ function shouldPrePrintDoubleHardline(node, data) {
     data.prevNode.type === "html" &&
     data.prevNode.position.end.line + 1 === node.position.start.line;
 
+  const isHtmlDirectAfterListItem =
+    node.type === "html" &&
+    data.parentNode.type === "listItem" &&
+    data.prevNode &&
+    data.prevNode.type === "paragraph" &&
+    data.prevNode.position.end.line + 1 === node.position.start.line;
+
   return (
     isPrevNodeLooseListItem ||
     !(
       isSiblingNode ||
       isInTightListItem ||
       isPrevNodePrettierIgnore ||
-      isBlockHtmlWithoutBlankLineBetweenPrevHtml
+      isBlockHtmlWithoutBlankLineBetweenPrevHtml ||
+      isHtmlDirectAfterListItem
     )
   );
 }
