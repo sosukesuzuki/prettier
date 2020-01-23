@@ -122,23 +122,10 @@ const options = {
       typeof value === "string" || typeof value === "function",
     choices: [
       { value: "flow", description: "Flow" },
-      {
-        value: "babylon",
-        description: "JavaScript",
-        deprecated: "1.16.0",
-        redirect: "babel"
-      },
       { value: "babel", since: "1.16.0", description: "JavaScript" },
       { value: "babel-flow", since: "1.16.0", description: "Flow" },
       { value: "typescript", since: "1.4.0", description: "TypeScript" },
       { value: "css", since: "1.7.1", description: "CSS" },
-      {
-        value: "postcss",
-        since: "1.4.0",
-        description: "CSS/Less/SCSS",
-        deprecated: "1.7.1",
-        redirect: "css"
-      },
       { value: "less", since: "1.7.1", description: "Less" },
       { value: "scss", since: "1.7.1", description: "SCSS" },
       { value: "json", since: "1.5.0", description: "JSON" },
