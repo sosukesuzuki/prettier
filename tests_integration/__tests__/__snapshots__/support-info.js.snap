@@ -40,21 +40,18 @@ exports[`API getSupportInfo() with version 0.0.0 -> 1.0.0 1`] = `
         \\"type\\": \\"boolean\\",
       },
       \\"tabWidth\\": Object {
-@@ -43,13 +58,15 @@
-      \\"trailingComma\\": Object {
+@@ -44,10 +59,14 @@
         \\"choices\\": Array [
           \\"es5\\",
           \\"none\\",
           \\"all\\",
--         true,
--         false,
         ],
+-       \\"default\\": false,
 +       \\"default\\": \\"none\\",
-+       \\"type\\": \\"choice\\",
+        \\"type\\": \\"choice\\",
 +     },
 +     \\"useTabs\\": Object {
-        \\"default\\": false,
--       \\"type\\": \\"choice\\",
++       \\"default\\": false,
 +       \\"type\\": \\"boolean\\",
       },
     },
@@ -109,8 +106,6 @@ Object {
         "es5",
         "none",
         "all",
-        true,
-        false,
       ],
       "default": false,
       "type": "choice",
@@ -376,17 +371,14 @@ exports[`API getSupportInfo() with version 1.8.0 -> 1.8.2 1`] = `
 - First value
 + Second value
 
-@@ -90,10 +90,18 @@
+@@ -90,10 +90,15 @@
           \\"start\\": 0,
           \\"step\\": 1,
         },
         \\"type\\": \\"int\\",
       },
 +     \\"proseWrap\\": Object {
-+       \\"choices\\": Array [
-+         false,
-+         true,
-+       ],
++       \\"choices\\": Array [],
 +       \\"default\\": true,
 +       \\"type\\": \\"choice\\",
 +     },
@@ -482,13 +474,12 @@ exports[`API getSupportInfo() with version 1.8.2 -> 1.16.0 1`] = `
         \\"type\\": \\"boolean\\",
       },
       \\"cursorOffset\\": Object {
-@@ -54,36 +83,76 @@
-          \\"end\\": Infinity,
+@@ -55,35 +84,75 @@
           \\"start\\": -1,
           \\"step\\": 1,
         },
         \\"type\\": \\"int\\",
-+     },
+      },
 +     \\"endOfLine\\": Object {
 +       \\"choices\\": Array [
 +         \\"auto\\",
@@ -498,11 +489,11 @@ exports[`API getSupportInfo() with version 1.8.2 -> 1.16.0 1`] = `
 +       ],
 +       \\"default\\": \\"auto\\",
 +       \\"type\\": \\"choice\\",
-      },
++     },
       \\"filepath\\": Object {
         \\"default\\": undefined,
         \\"type\\": \\"path\\",
-+     },
+      },
 +     \\"htmlWhitespaceSensitivity\\": Object {
 +       \\"choices\\": Array [
 +         \\"css\\",
@@ -511,7 +502,7 @@ exports[`API getSupportInfo() with version 1.8.2 -> 1.16.0 1`] = `
 +       ],
 +       \\"default\\": \\"css\\",
 +       \\"type\\": \\"choice\\",
-      },
++     },
       \\"insertPragma\\": Object {
         \\"default\\": false,
         \\"type\\": \\"boolean\\",
@@ -560,19 +551,19 @@ exports[`API getSupportInfo() with version 1.8.2 -> 1.16.0 1`] = `
         \\"default\\": 80,
         \\"range\\": Object {
           \\"end\\": Infinity,
-@@ -92,14 +161,15 @@
+@@ -91,12 +160,16 @@
+          \\"step\\": 1,
         },
         \\"type\\": \\"int\\",
       },
       \\"proseWrap\\": Object {
-        \\"choices\\": Array [
--         false,
--         true,
+-       \\"choices\\": Array [],
+-       \\"default\\": true,
++       \\"choices\\": Array [
 +         \\"always\\",
 +         \\"never\\",
 +         \\"preserve\\",
-        ],
--       \\"default\\": true,
++       ],
 +       \\"default\\": \\"preserve\\",
         \\"type\\": \\"choice\\",
       },
