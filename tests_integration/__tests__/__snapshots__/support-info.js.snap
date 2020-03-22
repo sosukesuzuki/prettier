@@ -437,6 +437,7 @@ exports[`CLI --support-info (stdout) 1`] = `
       \\"codemirrorMimeType\\": \\"text/javascript\\",
       \\"codemirrorMode\\": \\"javascript\\",
       \\"extensions\\": [
+        \\".jsonc\\",
         \\".sublime-build\\",
         \\".sublime-commands\\",
         \\".sublime-completions\\",
@@ -676,7 +677,13 @@ exports[`CLI --support-info (stdout) 1`] = `
         \\".yaml.sed\\",
         \\".yml.mysql\\"
       ],
-      \\"filenames\\": [\\".clang-format\\", \\".clang-tidy\\", \\".gemrc\\", \\"glide.lock\\"],
+      \\"filenames\\": [
+        \\".clang-format\\",
+        \\".clang-tidy\\",
+        \\".gemrc\\",
+        \\"glide.lock\\",
+        \\"yarn.lock\\"
+      ],
       \\"linguistLanguageId\\": 407,
       \\"name\\": \\"YAML\\",
       \\"parsers\\": [\\"yaml\\"],
