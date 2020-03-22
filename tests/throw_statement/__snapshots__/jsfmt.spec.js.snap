@@ -77,8 +77,8 @@ function foo() {
 
 function foo() {
   throw (
-    (fooooooooooooooooooooooooooooooooooooooooooooooooooooooo,
-    fooooooooooooooooooooooooooooooooooooooooooooooooooooooo)
+    fooooooooooooooooooooooooooooooooooooooooooooooooooooooo,
+    fooooooooooooooooooooooooooooooooooooooooooooooooooooooo
   );
 }
 

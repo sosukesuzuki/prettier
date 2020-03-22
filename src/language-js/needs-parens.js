@@ -314,6 +314,7 @@ function needsParens(path, options) {
 
     case "SequenceExpression":
       switch (parent.type) {
+        case "ThrowStatement":
         case "ReturnStatement":
           return false;
 
