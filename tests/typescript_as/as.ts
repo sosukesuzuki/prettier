@@ -27,3 +27,13 @@ const state = JSON.stringify({
 (bValue as boolean) ? 0 : -1;
 <boolean>bValue ? 0 : -1;
 
+function foo() {
+  throw (
+    fooooooooooooooooooooooooooooooooooooooooooooooooooooooo as fooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+  );
+}
+function foo() {
+  return (
+    fooooooooooooooooooooooooooooooooooooooooooooooooooooooo as fooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+  );
+}

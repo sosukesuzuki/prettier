@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`as.js 1`] = `
+exports[`as.ts 1`] = `
 ====================================options=====================================
 parsers: ["typescript"]
 printWidth: 80
@@ -35,6 +35,16 @@ const state = JSON.stringify({
 (bValue as boolean) ? 0 : -1;
 <boolean>bValue ? 0 : -1;
 
+function foo() {
+  throw (
+    fooooooooooooooooooooooooooooooooooooooooooooooooooooooo as fooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+  );
+}
+function foo() {
+  return (
+    fooooooooooooooooooooooooooooooooooooooooooooooooooooooo as fooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+  );
+}
 
 =====================================output=====================================
 const name = (description as DescriptionObject).name || (description as string);
@@ -72,6 +82,17 @@ const state = JSON.stringify({
 
 (bValue as boolean) ? 0 : -1;
 <boolean>bValue ? 0 : -1;
+
+function foo() {
+  throw (
+    fooooooooooooooooooooooooooooooooooooooooooooooooooooooo as fooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+  );
+}
+function foo() {
+  return (
+    fooooooooooooooooooooooooooooooooooooooooooooooooooooooo as fooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+  );
+}
 
 ================================================================================
 `;
