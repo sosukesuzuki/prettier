@@ -13,3 +13,17 @@ function foo() {
     ? true
     : false;
 }
+
+function foo() {
+  return (
+    fooooooooooooooooooooooooooooooooooooooooooooooooooooooo =
+    fooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+  );
+}
+
+function foo() {
+  return (
+    fooooooooooooooooooooooooooooooooooooooooooooooooooooooo,
+    fooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+  );
+}

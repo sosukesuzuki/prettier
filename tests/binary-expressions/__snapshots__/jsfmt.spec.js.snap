@@ -713,6 +713,20 @@ function foo() {
     : false;
 }
 
+function foo() {
+  return (
+    fooooooooooooooooooooooooooooooooooooooooooooooooooooooo =
+    fooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+  );
+}
+
+function foo() {
+  return (
+    fooooooooooooooooooooooooooooooooooooooooooooooooooooooo,
+    fooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+  );
+}
+
 =====================================output=====================================
 function foo() {
   return (
@@ -733,6 +747,19 @@ function foo() {
     this.calculate().compute().last.numberOfThings
     ? true
     : false;
+}
+
+function foo() {
+  return (
+    (fooooooooooooooooooooooooooooooooooooooooooooooooooooooo = fooooooooooooooooooooooooooooooooooooooooooooooooooooooo)
+  );
+}
+
+function foo() {
+  return (
+    fooooooooooooooooooooooooooooooooooooooooooooooooooooooo,
+    fooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+  );
 }
 
 ================================================================================

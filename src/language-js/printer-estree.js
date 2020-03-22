@@ -2490,10 +2490,7 @@ function printPathNoParens(path, options, print, args) {
               n.expressions[i].type === "MemberExpression" ||
               n.expressions[i].type === "OptionalMemberExpression" ||
               n.expressions[i].type === "ConditionalExpression" ||
-              n.expressions[i].type === "LogicalExpression" ||
-              n.expressions[i].type === "BinaryExpression" ||
-              n.expressions[i].type === "SequenceExpression" ||
-              n.expressions[i].type === "TSAsExpression"
+              isBinaryish(n.expressions[i])
             ) {
               printed = concat([indent(concat([softline, printed])), softline]);
             }
@@ -6024,11 +6021,7 @@ function printReturnAndThrowArgument(path, options, print) {
           ")",
         ])
       );
-    } else if (
-      node.argument.type === "LogicalExpression" ||
-      node.argument.type === "BinaryExpression" ||
-      node.argument.type === "SequenceExpression"
-    ) {
+    } else if (isBinaryish(node.argument)) {
       parts.push(
         group(
           concat([

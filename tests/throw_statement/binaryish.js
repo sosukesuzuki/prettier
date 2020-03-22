@@ -21,3 +21,17 @@ function f() {
   throw !filePath.includes(coverageDirectory) &&
     !filePath.endsWith(`.${SNAPSHOT_EXTENSION}`);
 }
+
+function foo() {
+  throw (
+    fooooooooooooooooooooooooooooooooooooooooooooooooooooooo =
+    fooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+  );
+}
+
+function foo() {
+  throw (
+    fooooooooooooooooooooooooooooooooooooooooooooooooooooooo,
+    fooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+  );
+}
