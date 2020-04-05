@@ -48,14 +48,15 @@ function resolvePluginsConflict(
   pluginCombinations,
   conflictPlugins
 ) {
+  const combinations = [...pluginCombinations];
   if (condition) {
-    const combinations = [...pluginCombinations];
-    for (const combination of combinations) {
+    for (const combination of pluginCombinations) {
       for (const plugin of conflictPlugins) {
-        pluginCombinations.push([...combination, plugin]);
+        combinations.push([...combination, plugin]);
       }
     }
   }
+  return combinations;
 }
 
 function createParse(parseMethod, ...pluginCombinations) {
@@ -65,15 +66,18 @@ function createParse(parseMethod, ...pluginCombinations) {
 
     let ast;
     try {
-      resolvePluginsConflict(text.includes("|>"), pluginCombinations, [
-        ["pipelineOperator", { proposal: "smart" }],
-        ["pipelineOperator", { proposal: "minimal" }],
-        ["pipelineOperator", { proposal: "fsharp" }],
-      ]);
-      console.log(JSON.stringify(pluginCombinations));
+      const combinations = resolvePluginsConflict(
+        text.includes("|>"),
+        pluginCombinations,
+        [
+          ["pipelineOperator", { proposal: "smart" }],
+          ["pipelineOperator", { proposal: "minimal" }],
+          ["pipelineOperator", { proposal: "fsharp" }],
+        ]
+      );
       ast = tryCombinations(
         (options) => babel[parseMethod](text, options),
-        pluginCombinations.map(babelOptions)
+        combinations.map(babelOptions)
       );
     } catch (error) {
       throw createError(
