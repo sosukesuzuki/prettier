@@ -49,7 +49,8 @@ function resolvePluginsConflict(
   conflictPlugins
 ) {
   if (condition) {
-    for (const combination of [...pluginCombinations]) {
+    const combinations = [...pluginCombinations];
+    for (const combination of combinations) {
       for (const plugin of conflictPlugins) {
         pluginCombinations.push([...combination, plugin]);
       }
