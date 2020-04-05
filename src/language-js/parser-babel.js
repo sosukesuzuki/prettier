@@ -70,6 +70,7 @@ function createParse(parseMethod, ...pluginCombinations) {
         ["pipelineOperator", { proposal: "minimal" }],
         ["pipelineOperator", { proposal: "fsharp" }],
       ]);
+      console.log(JSON.stringify(pluginCombinations));
       ast = tryCombinations(
         (options) => babel[parseMethod](text, options),
         pluginCombinations.map(babelOptions)
