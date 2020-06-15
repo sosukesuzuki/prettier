@@ -115,6 +115,7 @@ const {
     lineSuffixBoundary,
     addAlignmentToDoc,
     dedent,
+    breakParent,
   },
   utils: { willBreak, isLineNext, isEmpty, removeLines, normalizeParts },
   printer: { printDocToString },
@@ -5339,7 +5340,14 @@ function printComment(commentPath, options) {
       const isInsideFlowComment =
         options.originalText.slice(commentEnd - 3, commentEnd) === "*-/";
 
-      return "/*" + comment.value + (isInsideFlowComment ? "*-/" : "*/");
+      const printed =
+        "/*" + comment.value + (isInsideFlowComment ? "*-/" : "*/");
+
+      if (shouldBreakCommentParent(commentPath, options)) {
+        return concat([printed, breakParent]);
+      }
+
+      return printed;
     }
     case "CommentLine":
     case "Line":
@@ -5350,6 +5358,30 @@ function printComment(commentPath, options) {
     default:
       throw new Error("Not a comment: " + JSON.stringify(comment));
   }
+}
+
+function shouldBreakCommentParent(commentPath, options) {
+  const comment = commentPath.getValue();
+  const parent = commentPath.getParentNode();
+  const parentParent = commentPath.getParentNode(1);
+  if (!parentParent) {
+    return false;
+  }
+  const isTernaryExpression =
+    parentParent.type === "ConditionalExpression" ||
+    parentParent.type === "TSConditionalType";
+  const consequentField = parentParent.consequent ? "consequent" : "trueType";
+  const alternateField = parentParent.alternate ? "alternate" : "falseType";
+  return (
+    hasNewlineInRange(
+      options.originalText,
+      options.locStart(comment),
+      options.locEnd(comment)
+    ) &&
+    isTernaryExpression &&
+    (parent === parentParent[consequentField] ||
+      parent === parentParent[alternateField])
+  );
 }
 
 function isIndentableBlockComment(comment) {
