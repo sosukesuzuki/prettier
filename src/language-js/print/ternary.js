@@ -119,6 +119,8 @@ function conditionalExpressionChainContainsJSX(node) {
  * ternary operators, namely ConditionalExpression
  * and TSConditionalType
  * @typedef {import("../../document/doc-builders").Doc} Doc
+ * @typedef {import("../../common/fast-path").FastPathObject} FastPathObject
+ *
  * @typedef {Object} OperatorOptions
  * @property {() => Array<string | Doc>} beforeParts - Parts to print before the `?`.
  * @property {(breakClosingParen: boolean) => Array<string | Doc>} afterParts - Parts to print after the conditional expression.
@@ -127,7 +129,7 @@ function conditionalExpressionChainContainsJSX(node) {
  * @property {string} consequentNodePropertyName - The property at which the consequent node can be found on the main node, eg "consequent".
  * @property {string} alternateNodePropertyName - The property at which the alternate node can be found on the main node, eg "alternate".
  * @property {string[]} testNodePropertyNames - The properties at which the test nodes can be found on the main node, eg "test".
- * @param {FastPath} path - The path to the ConditionalExpression/TSConditionalType node.
+ * @param {FastPathObject} path - The path to the ConditionalExpression/TSConditionalType node.
  * @param {Options} options - Prettier options
  * @param {Function} print - Print function to call recursively
  * @param {OperatorOptions} operatorOptions
