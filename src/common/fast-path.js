@@ -16,6 +16,8 @@ function getNodeStackIndexHelper(stack, count) {
   return -1;
 }
 
+/** @typedef {FastPath} FastPathObject */
+
 class FastPath {
   constructor(value) {
     this.stack = [value];
