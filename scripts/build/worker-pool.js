@@ -1,4 +1,5 @@
 const path = require("path");
+const { EventEmitter } = require("events");
 const workerpool = require("workerpool");
 const {
   getRollupConfig,
@@ -11,6 +12,7 @@ const WORKER_PATH = path.join(__dirname, "./worker.js");
 module.exports = class WorkerPool {
   constructor() {
     this._pool = workerpool.pool(WORKER_PATH, { workerType: "process" });
+    this._emitter = new EventEmitter();
   }
 
   terminate() {
@@ -24,7 +26,6 @@ module.exports = class WorkerPool {
    */
   createBundle(bundleConfig, bundleCache, options) {
     return new Promise(async (resolve, reject) => {
-      console.log("Start bundling: " + bundleConfig.output);
       try {
         const inputOptions = getRollupConfig(bundleConfig);
         const outputOptions = getRollupOutputOptions(bundleConfig, options);
@@ -32,7 +33,6 @@ module.exports = class WorkerPool {
         const status = {
           skipped: !Array.isArray(outputOptions) && outputOptions.skipped,
           cached: false,
-          bundled: false,
         };
 
         if (!status.skipped) {
@@ -46,21 +46,39 @@ module.exports = class WorkerPool {
         }
 
         if (!status.cached) {
+          console.log("Start bundling: " + bundleConfig.output);
           if (bundleConfig.bundler === "webpack") {
             await this._pool.exec("createWebpackBundle", [bundleConfig]);
+            if (bundleConfig.output === "parser-postcss.js") {
+              this._emitter.emit("finish-postcss-bundle");
+            }
           } else {
             await this._pool.exec("createRollupBundle", [
               bundleConfig,
               options,
             ]);
           }
-          status.bundled = true;
         }
 
         console.log("End building: " + bundleConfig.output);
         resolve();
       } catch (error) {
-        reject(error);
+        if (
+          error.code === "UNRESOLVED_ENTRY" &&
+          bundleConfig.output === "esm/parser-postcss.mjs"
+        ) {
+          this._emitter.once("finish-postcss-bundle", async () => {
+            console.log("Start bundling: " + bundleConfig.output);
+            await this._pool.exec("createRollupBundle", [
+              bundleConfig,
+              options,
+            ]);
+            console.log("End building: " + bundleConfig.output);
+            resolve();
+          });
+        } else {
+          reject(error);
+        }
       }
     });
   }

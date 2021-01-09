@@ -172,11 +172,8 @@ async function run(params) {
   //   await createBundle(bundleConfig, bundleCache, params);
   // }
 
-  const bcs = bundleConfigs.filter(
-    (bc) => bc.output !== "esm/parser-postcss.mjs"
-  );
   await Promise.all(
-    bcs.map((bc) => pool.createBundle(bc, bundleCache, params))
+    bundleConfigs.map((bc) => pool.createBundle(bc, bundleCache, params))
   );
 
   await cacheFiles(bundleCache);
