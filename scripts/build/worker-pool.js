@@ -49,10 +49,7 @@ module.exports = class WorkerPool {
         if (bundleConfig.bundler === "webpack") {
           await this._pool.exec("createWebpackBundle", [bundleConfig]);
         } else {
-          // await this._pool.exec("createRollupBundle", [
-          //   inputOptions,
-          //   outputOptions,
-          // ]);
+          await this._pool.exec("createRollupBundle", [bundleConfig, options]);
         }
         status.bundled = true;
       }
