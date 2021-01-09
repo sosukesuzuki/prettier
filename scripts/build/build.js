@@ -11,6 +11,7 @@ const bundler = require("./bundler");
 const bundleConfigs = require("./config");
 const util = require("./util");
 const Cache = require("./cache");
+const WorkerPool = require("./worker-pool");
 
 // Errors in promises should be fatal.
 const loggedErrors = new Set();
@@ -51,6 +52,7 @@ function fitTerminal(input, suffix = "") {
   return input;
 }
 
+// eslint-disable-next-line
 async function createBundle(bundleConfig, cache, options) {
   const { output, target, format, type } = bundleConfig;
   process.stdout.write(fitTerminal(output));
@@ -88,12 +90,12 @@ async function createBundle(bundleConfig, cache, options) {
       const getSizeText = async (file) =>
         prettyBytes((await fs.stat(file)).size);
       const sizeTexts = [await getSizeText(file)];
-      if (
+      const hasEsmBundle =
         type !== "core" &&
         format !== "esm" &&
         bundleConfig.bundler !== "webpack" &&
-        target === "universal"
-      ) {
+        target === "universal";
+      if (hasEsmBundle) {
         const esmFile = path.join("dist/esm", output.replace(".js", ".mjs"));
         sizeTexts.push(`esm ${await getSizeText(esmFile)}`);
       }
@@ -164,13 +166,21 @@ async function run(params) {
   const bundleCache = new Cache(".cache/", CACHE_VERSION);
   await bundleCache.load();
 
-  console.log(chalk.inverse(" Building packages "));
-  for (const bundleConfig of bundleConfigs) {
-    await createBundle(bundleConfig, bundleCache, params);
-  }
+  const pool = new WorkerPool();
+
+  // console.log(chalk.inverse(" Building packages "));
+  // for (const bundleConfig of bundleConfigs) {
+  //   await createBundle(bundleConfig, bundleCache, params);
+  // }
+
+  await Promise.all(
+    bundleConfigs.map((bc) => pool.createBundle(bc, bundleCache, params))
+  );
 
   await cacheFiles(bundleCache);
   await bundleCache.save();
+
+  pool.terminate();
 
   if (!params.playground) {
     await preparePackage();
