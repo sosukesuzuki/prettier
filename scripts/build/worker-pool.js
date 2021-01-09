@@ -22,41 +22,46 @@ module.exports = class WorkerPool {
    * @param {import("./cache")} bundleCache
    * @param {any} options
    */
-  async createBundle(bundleConfig, bundleCache, options) {
-    console.log("Start bundling: " + bundleConfig.output);
+  createBundle(bundleConfig, bundleCache, options) {
+    return new Promise(async (resolve, reject) => {
+      console.log("Start bundling: " + bundleConfig.output);
+      try {
+        const inputOptions = getRollupConfig(bundleConfig);
+        const outputOptions = getRollupOutputOptions(bundleConfig, options);
 
-    try {
-      const inputOptions = getRollupConfig(bundleConfig);
-      const outputOptions = getRollupOutputOptions(bundleConfig, options);
+        const status = {
+          skipped: !Array.isArray(outputOptions) && outputOptions.skipped,
+          cached: false,
+          bundled: false,
+        };
 
-      const status = {
-        skipped: !Array.isArray(outputOptions) && outputOptions.skipped,
-        cached: false,
-        bundled: false,
-      };
-
-      if (!status.skipped) {
-        status.cached = (
-          await Promise.all(
-            outputOptions.map((outputOption) =>
-              checkCache(bundleCache, inputOptions, outputOption)
+        if (!status.skipped) {
+          status.cached = (
+            await Promise.all(
+              outputOptions.map((outputOption) =>
+                checkCache(bundleCache, inputOptions, outputOption)
+              )
             )
-          )
-        ).every((r) => r === true);
-      }
-
-      if (!status.cached) {
-        if (bundleConfig.bundler === "webpack") {
-          await this._pool.exec("createWebpackBundle", [bundleConfig]);
-        } else {
-          await this._pool.exec("createRollupBundle", [bundleConfig, options]);
+          ).every((r) => r === true);
         }
-        status.bundled = true;
-      }
 
-      console.log("End building: " + bundleConfig.output);
-    } catch (error) {
-      throw error;
-    }
+        if (!status.cached) {
+          if (bundleConfig.bundler === "webpack") {
+            await this._pool.exec("createWebpackBundle", [bundleConfig]);
+          } else {
+            await this._pool.exec("createRollupBundle", [
+              bundleConfig,
+              options,
+            ]);
+          }
+          status.bundled = true;
+        }
+
+        console.log("End building: " + bundleConfig.output);
+        resolve();
+      } catch (error) {
+        reject(error);
+      }
+    });
   }
 };
