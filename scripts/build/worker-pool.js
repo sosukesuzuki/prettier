@@ -4,14 +4,17 @@ const {
   getRollupConfig,
   getRollupOutputOptions,
   checkCache,
-  getWebpackConfig,
 } = require("./bundler");
 
 const WORKER_PATH = path.join(__dirname, "./worker.js");
 
 module.exports = class WorkerPool {
   constructor() {
-    this._pool = workerpool.pool(WORKER_PATH);
+    this._pool = workerpool.pool(WORKER_PATH, { workerType: "process" });
+  }
+
+  terminate() {
+    this._pool.terminate();
   }
 
   /**
@@ -44,14 +47,12 @@ module.exports = class WorkerPool {
 
       if (!status.cached) {
         if (bundleConfig.bundler === "webpack") {
-          await this._pool.exec("createWebpackBundle", [
-            getWebpackConfig(bundleConfig),
-          ]);
+          await this._pool.exec("createWebpackBundle", [bundleConfig]);
         } else {
-          await this._pool.exec("createRollupBundle", [
-            inputOptions,
-            outputOptions,
-          ]);
+          // await this._pool.exec("createRollupBundle", [
+          //   inputOptions,
+          //   outputOptions,
+          // ]);
         }
         status.bundled = true;
       }

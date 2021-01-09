@@ -1,9 +1,9 @@
 const workerpool = require("workerpool");
 const { rollup } = require("rollup");
-const { runWebpack } = require("./bundler");
+const { runWebpack, getWebpackConfig } = require("./bundler");
 
-async function createWebpackBundle(webpackConfig) {
-  await runWebpack(webpackConfig);
+async function createWebpackBundle(bundleConfig) {
+  await runWebpack(getWebpackConfig(bundleConfig));
 }
 
 async function createRollupBundle(inputOptions, outputOptions) {

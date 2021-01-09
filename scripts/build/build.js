@@ -182,6 +182,8 @@ async function run(params) {
   await cacheFiles(bundleCache);
   await bundleCache.save();
 
+  pool.terminate();
+
   if (!params.playground) {
     await preparePackage();
   }
