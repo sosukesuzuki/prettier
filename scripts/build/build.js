@@ -52,6 +52,7 @@ function fitTerminal(input, suffix = "") {
   return input;
 }
 
+// eslint-disable-next-line
 async function createBundle(bundleConfig, cache, options) {
   const { output, target, format, type } = bundleConfig;
   process.stdout.write(fitTerminal(output));

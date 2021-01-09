@@ -1,3 +1,5 @@
+"use strict";
+
 const workerpool = require("workerpool");
 const { rollup } = require("rollup");
 const {

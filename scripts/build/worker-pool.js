@@ -1,3 +1,5 @@
+"use strict";
+
 const path = require("path");
 const { EventEmitter } = require("events");
 const workerpool = require("workerpool");
@@ -24,49 +26,45 @@ module.exports = class WorkerPool {
    * @param {import("./cache")} bundleCache
    * @param {any} options
    */
-  createBundle(bundleConfig, bundleCache, options) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const inputOptions = getRollupConfig(bundleConfig);
-        const outputOptions = getRollupOutputOptions(bundleConfig, options);
+  async createBundle(bundleConfig, bundleCache, options) {
+    try {
+      const inputOptions = getRollupConfig(bundleConfig);
+      const outputOptions = getRollupOutputOptions(bundleConfig, options);
 
-        const status = {
-          skipped: !Array.isArray(outputOptions) && outputOptions.skipped,
-          cached: false,
-        };
+      const status = {
+        skipped: !Array.isArray(outputOptions) && outputOptions.skipped,
+        cached: false,
+      };
 
-        if (!status.skipped) {
-          status.cached = (
-            await Promise.all(
-              outputOptions.map((outputOption) =>
-                checkCache(bundleCache, inputOptions, outputOption)
-              )
+      if (!status.skipped) {
+        status.cached = (
+          await Promise.all(
+            outputOptions.map((outputOption) =>
+              checkCache(bundleCache, inputOptions, outputOption)
             )
-          ).every((r) => r === true);
-        }
+          )
+        ).every((r) => r === true);
+      }
 
-        if (!status.cached) {
-          console.log("Start bundling: " + bundleConfig.output);
-          if (bundleConfig.bundler === "webpack") {
-            await this._pool.exec("createWebpackBundle", [bundleConfig]);
-            if (bundleConfig.output === "parser-postcss.js") {
-              this._emitter.emit("finish-postcss-bundle");
-            }
-          } else {
-            await this._pool.exec("createRollupBundle", [
-              bundleConfig,
-              options,
-            ]);
+      if (!status.cached) {
+        console.log("Start bundling: " + bundleConfig.output);
+        if (bundleConfig.bundler === "webpack") {
+          await this._pool.exec("createWebpackBundle", [bundleConfig]);
+          if (bundleConfig.output === "parser-postcss.js") {
+            this._emitter.emit("finish-postcss-bundle");
           }
+        } else {
+          await this._pool.exec("createRollupBundle", [bundleConfig, options]);
         }
+      }
 
-        console.log("End building: " + bundleConfig.output);
-        resolve();
-      } catch (error) {
-        if (
-          error.code === "UNRESOLVED_ENTRY" &&
-          bundleConfig.output === "esm/parser-postcss.mjs"
-        ) {
+      console.log("End building: " + bundleConfig.output);
+    } catch (error) {
+      if (
+        error.code === "UNRESOLVED_ENTRY" &&
+        bundleConfig.output === "esm/parser-postcss.mjs"
+      ) {
+        return new Promise((resolve) => {
           this._emitter.once("finish-postcss-bundle", async () => {
             console.log("Start bundling: " + bundleConfig.output);
             await this._pool.exec("createRollupBundle", [
@@ -76,10 +74,9 @@ module.exports = class WorkerPool {
             console.log("End building: " + bundleConfig.output);
             resolve();
           });
-        } else {
-          reject(error);
-        }
+        });
       }
-    });
+      throw error;
+    }
   }
 };
