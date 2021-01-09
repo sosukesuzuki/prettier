@@ -3,7 +3,6 @@
 const path = require("path");
 const fs = require("fs");
 const execa = require("execa");
-const { rollup } = require("rollup");
 const webpack = require("webpack");
 const { nodeResolve } = require("@rollup/plugin-node-resolve");
 const rollupPluginAlias = require("@rollup/plugin-alias");
@@ -359,29 +358,10 @@ async function checkCache(cache, inputOptions, outputOption) {
   return false;
 }
 
-module.exports = async function createBundle(bundle, cache, options) {
-  const inputOptions = getRollupConfig(bundle);
-  const outputOptions = getRollupOutputOptions(bundle, options);
-
-  if (!Array.isArray(outputOptions) && outputOptions.skipped) {
-    return { skipped: true };
-  }
-
-  const checkCacheResults = await Promise.all(
-    outputOptions.map((outputOption) =>
-      checkCache(cache, inputOptions, outputOption)
-    )
-  );
-  if (checkCacheResults.every((r) => r === true)) {
-    return { cached: true };
-  }
-
-  if (bundle.bundler === "webpack") {
-    await runWebpack(getWebpackConfig(bundle));
-  } else {
-    const result = await rollup(inputOptions);
-    await Promise.all(outputOptions.map((option) => result.write(option)));
-  }
-
-  return { bundled: true };
+module.exports = {
+  getRollupConfig,
+  getRollupOutputOptions,
+  runWebpack,
+  checkCache,
+  getWebpackConfig,
 };

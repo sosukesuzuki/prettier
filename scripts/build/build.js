@@ -11,6 +11,7 @@ const bundler = require("./bundler");
 const bundleConfigs = require("./config");
 const util = require("./util");
 const Cache = require("./cache");
+const WorkerPool = require("./worker-pool");
 
 // Errors in promises should be fatal.
 const loggedErrors = new Set();
@@ -164,10 +165,19 @@ async function run(params) {
   const bundleCache = new Cache(".cache/", CACHE_VERSION);
   await bundleCache.load();
 
-  console.log(chalk.inverse(" Building packages "));
-  for (const bundleConfig of bundleConfigs) {
-    await createBundle(bundleConfig, bundleCache, params);
-  }
+  const pool = new WorkerPool();
+
+  // console.log(chalk.inverse(" Building packages "));
+  // for (const bundleConfig of bundleConfigs) {
+  //   await createBundle(bundleConfig, bundleCache, params);
+  // }
+
+  const bcs = bundleConfigs.filter(
+    (bc) => bc.output !== "esm/parser-postcss.mjs"
+  );
+  await Promise.all(
+    bcs.map((bc) => pool.createBundle(bc, bundleCache, params))
+  );
 
   await cacheFiles(bundleCache);
   await bundleCache.save();
