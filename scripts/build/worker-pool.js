@@ -36,7 +36,7 @@ module.exports = class WorkerPool {
         cached: false,
       };
 
-      if (!status.skipped) {
+      if (!status.skipped && !options["purge-cache"]) {
         status.cached = (
           await Promise.all(
             outputOptions.map((outputOption) =>
@@ -50,15 +50,15 @@ module.exports = class WorkerPool {
         console.log("Start bundling: " + bundleConfig.output);
         if (bundleConfig.bundler === "webpack") {
           await this._pool.exec("createWebpackBundle", [bundleConfig]);
-          if (bundleConfig.output === "parser-postcss.js") {
-            this._emitter.emit("finish-postcss-bundle");
-          }
         } else {
           await this._pool.exec("createRollupBundle", [bundleConfig, options]);
         }
       }
 
       console.log("End building: " + bundleConfig.output);
+      if (bundleConfig.output === "parser-postcss.js") {
+        this._emitter.emit("finish-postcss-bundle");
+      }
     } catch (error) {
       if (
         error.code === "UNRESOLVED_ENTRY" &&
