@@ -1,0 +1,2 @@
+type Foo = Fooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo<foo.bar>;
+type Foo = Foo<Foooooooooooooooooooooooooo.ooooooooooooooooooooooooooooooooooooooooooo>;

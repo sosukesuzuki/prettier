@@ -35,6 +35,26 @@ const name: SomeGeneric<
 ================================================================================
 `;
 
+exports[`qualified.ts format 1`] = `
+====================================options=====================================
+parsers: ["typescript", "flow", "babel-flow", "babel"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
+type Foo = Fooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo<foo.bar>;
+type Foo = Foo<Foooooooooooooooooooooooooo.ooooooooooooooooooooooooooooooooooooooooooo>;
+
+=====================================output=====================================
+type Foo = Fooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo<
+  foo.bar
+>;
+type Foo = Foo<
+  Foooooooooooooooooooooooooo.ooooooooooooooooooooooooooooooooooooooooooo
+>;
+
+================================================================================
+`;
+
 exports[`simple-types.ts format 1`] = `
 ====================================options=====================================
 parsers: ["typescript", "flow", "babel-flow", "babel"]
