@@ -475,8 +475,10 @@ function isSimpleType(node) {
   }
 
   if (
-    (node.type === "GenericTypeAnnotation" ||
-      node.type === "TSTypeReference") &&
+    ((node.type === "GenericTypeAnnotation" &&
+      node.id.type !== "QualifiedTypeIdentifier") ||
+      (node.type === "TSTypeReference" &&
+        node.typeName.type !== "TSQualifiedName")) &&
     !node.typeParameters
   ) {
     return true;
