@@ -24,13 +24,14 @@ function getTypeParametersGroupId(node) {
 
 function printTypeParameters(path, options, print, paramsKey) {
   const n = path.getValue();
+  const typeParameters = n[paramsKey];
 
-  if (!n[paramsKey]) {
+  if (!typeParameters) {
     return "";
   }
 
   // for TypeParameterDeclaration typeParameters is a single node
-  if (!Array.isArray(n[paramsKey])) {
+  if (!Array.isArray(typeParameters)) {
     return path.call(print, paramsKey);
   }
 
@@ -39,14 +40,14 @@ function printTypeParameters(path, options, print, paramsKey) {
 
   const shouldInline =
     isParameterInTestCall ||
-    n[paramsKey].length === 0 ||
-    (n[paramsKey].length === 1 &&
-      (shouldHugType(n[paramsKey][0]) ||
-        (n[paramsKey][0].type === "GenericTypeAnnotation" &&
-          shouldHugType(n[paramsKey][0].id)) ||
-        (n[paramsKey][0].type === "TSTypeReference" &&
-          shouldHugType(n[paramsKey][0].typeName)) ||
-        n[paramsKey][0].type === "NullableTypeAnnotation"));
+    typeParameters.length === 0 ||
+    (typeParameters.length === 1 &&
+      (shouldHugType(typeParameters[0]) ||
+        (typeParameters[0].type === "GenericTypeAnnotation" &&
+          shouldHugType(typeParameters[0].id)) ||
+        (typeParameters[0].type === "TSTypeReference" &&
+          shouldHugType(typeParameters[0].typeName)) ||
+        typeParameters[0].type === "NullableTypeAnnotation"));
 
   if (shouldInline) {
     return concat([
