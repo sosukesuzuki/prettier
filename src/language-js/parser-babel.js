@@ -164,6 +164,9 @@ const messagesShouldThrow = new Set([
   // FlowErrors.UnexpectedTypeParameterBeforeAsyncArrowFunction
   // https://github.com/babel/babel/blob/a023b6456cac4505096028f91c5b78829955bfc2/packages/babel-parser/src/plugins/flow.js#L118
   "Type parameters must come after the async keyword, e.g. instead of `<T> async () => {}`, use `async <T>() => {}`",
+  // ErrorMessages.EscapedCharNotAnIdentifier
+  // https://github.com/babel/babel/blob/5a193cc14c05ad635636bbf38ae20b9dd90fbd02/packages/babel-parser/src/parser/error-message.js#L52
+  "Invalid Unicode escape",
 ]);
 
 function shouldRethrowRecoveredError(error) {
