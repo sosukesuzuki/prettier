@@ -317,11 +317,15 @@ function printTypescript(path, options, print) {
     case "TSTypeOperator":
       return [node.operator, " ", print("typeAnnotation")];
     case "TSMappedType": {
-      const shouldBreak = hasNewlineInRange(
-        options.originalText,
-        locStart(node),
-        locEnd(node)
-      );
+      const parent = path.getParentNode();
+      const shouldBreak =
+        parent.type === "TSTypeAliasDeclaration" ||
+        path.match(
+          undefined,
+          (node) => node.type === "TSTypeAnnotation",
+          (node) => node.type === "Identifier",
+          (node, name) => node.type === "VariableDeclarator" && name === "id"
+        );
       return group(
         [
           "{",
