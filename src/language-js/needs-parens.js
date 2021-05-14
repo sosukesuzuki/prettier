@@ -1,6 +1,7 @@
 "use strict";
 
 const getLast = require("../utils/get-last");
+const { locStart } = require("./loc");
 const {
   getFunctionParameters,
   getLeftSidePathName,
@@ -14,6 +15,36 @@ const {
   isCallExpression,
   isMemberExpression,
 } = require("./utils");
+
+// https://tc39.es/ecma262/#sec-for-in-and-for-of-statements
+function needsParensForLeftOfForStatements(node, name, parent, options) {
+  if (name !== "left") {
+    return false;
+  }
+  const startLoc = locStart(node);
+  if (
+    parent.type === "ForInStatement" &&
+    options.originalText.slice(startLoc, startLoc + 4) === "let["
+  ) {
+    return true;
+  }
+  if (
+    parent.type === "ForOfStatement" &&
+    !parent.await &&
+    (options.originalText.slice(startLoc, startLoc + 3) === "let" ||
+      options.originalText.slice(startLoc, startLoc + 4) === "async")
+  ) {
+    return true;
+  }
+  if (
+    parent.type === "ForOfStatement" &&
+    parent.await &&
+    options.originalText.slice(startLoc, startLoc + 3) === "let"
+  ) {
+    return true;
+  }
+  return false;
+}
 
 function needsParens(path, options) {
   const parent = path.getParentNode();
@@ -37,6 +68,10 @@ function needsParens(path, options) {
   // Only statements don't need parentheses.
   if (isStatement(node)) {
     return false;
+  }
+
+  if (needsParensForLeftOfForStatements(node, name, parent, options)) {
+    return true;
   }
 
   if (
