@@ -32,7 +32,7 @@ function needsParensForLeftOfForStatements(node, name, parent, options) {
     parent.type === "ForOfStatement" &&
     !parent.await &&
     (options.originalText.slice(startLoc, startLoc + 3) === "let" ||
-      options.originalText.slice(startLoc, startLoc + 4) === "async")
+      (node.type === "Identifier" && node.name === "async"))
   ) {
     return true;
   }
@@ -95,16 +95,6 @@ function needsParens(path, options) {
       node.extra &&
       node.extra.parenthesized &&
       /^PRETTIER_HTML_PLACEHOLDER_\d+_\d+_IN_JS$/.test(node.name)
-    ) {
-      return true;
-    }
-
-    // `for (async of []);` is invalid
-    if (
-      name === "left" &&
-      node.name === "async" &&
-      parent.type === "ForOfStatement" &&
-      !parent.await
     ) {
       return true;
     }
