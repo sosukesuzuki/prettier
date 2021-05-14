@@ -16,36 +16,6 @@ const {
   isMemberExpression,
 } = require("./utils");
 
-// https://tc39.es/ecma262/#sec-for-in-and-for-of-statements
-function needsParensForLeftOfForStatements(node, name, parent, options) {
-  if (name !== "left") {
-    return false;
-  }
-  const startLoc = locStart(node);
-  if (
-    parent.type === "ForInStatement" &&
-    options.originalText.slice(startLoc, startLoc + 4) === "let["
-  ) {
-    return true;
-  }
-  if (
-    parent.type === "ForOfStatement" &&
-    !parent.await &&
-    (options.originalText.slice(startLoc, startLoc + 3) === "let" ||
-      (node.type === "Identifier" && node.name === "async"))
-  ) {
-    return true;
-  }
-  if (
-    parent.type === "ForOfStatement" &&
-    parent.await &&
-    options.originalText.slice(startLoc, startLoc + 3) === "let"
-  ) {
-    return true;
-  }
-  return false;
-}
-
 function needsParens(path, options) {
   const parent = path.getParentNode();
   if (!parent) {
@@ -961,6 +931,36 @@ function shouldWrapFunctionForExportDefault(path, options) {
     (childPath) => shouldWrapFunctionForExportDefault(childPath, options),
     ...getLeftSidePathName(path, node)
   );
+}
+
+// https://tc39.es/ecma262/#sec-for-in-and-for-of-statements
+function needsParensForLeftOfForStatements(node, name, parent, options) {
+  if (name !== "left") {
+    return false;
+  }
+  const startLoc = locStart(node);
+  if (
+    parent.type === "ForInStatement" &&
+    options.originalText.slice(startLoc, startLoc + 4) === "let["
+  ) {
+    return true;
+  }
+  if (
+    parent.type === "ForOfStatement" &&
+    !parent.await &&
+    (options.originalText.slice(startLoc, startLoc + 3) === "let" ||
+      (node.type === "Identifier" && node.name === "async"))
+  ) {
+    return true;
+  }
+  if (
+    parent.type === "ForOfStatement" &&
+    parent.await &&
+    options.originalText.slice(startLoc, startLoc + 3) === "let"
+  ) {
+    return true;
+  }
+  return false;
 }
 
 module.exports = needsParens;
