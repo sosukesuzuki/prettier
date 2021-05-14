@@ -42,3 +42,60 @@ async function f() {
 
 ================================================================================
 `;
+
+exports[`let-expression.js [flow] format 1`] = `
+"Unexpected token \`let\` (1:7)
+> 1 | for ((let) of expressioin) {}
+    |       ^^^
+  2 | for ((let.foo) of expression) {}
+  3 | for ((let.foo.bar) of expression) {}
+  4 | for ((/* comment */ let) of expression) {}"
+`;
+
+exports[`let-expression.js format 1`] = `
+====================================options=====================================
+parsers: ["babel", "flow", "typescript"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
+for ((let) of expressioin) {}
+for ((let.foo) of expression) {}
+for ((let.foo.bar) of expression) {}
+for ((/* comment */ let) of expression) {}
+for ((     let      ) of expression) {}
+
+async function f() {
+  for await ((let) of expressioin) {}
+  for await ((let.foo) of expression) {}
+  for await ((let.foo.bar) of expression) {}
+  for await ((/* comment */ let) of expression) {}
+  for await ((     let      ) of expression) {}
+}
+
+=====================================output=====================================
+for ((let) of expressioin) {
+}
+for ((let.foo) of expression) {
+}
+for ((let.foo.bar) of expression) {
+}
+for (/* comment */ (let) of expression) {
+}
+for ((let) of expression) {
+}
+
+async function f() {
+  for await ((let) of expressioin) {
+  }
+  for await ((let.foo) of expression) {
+  }
+  for await ((let.foo.bar) of expression) {
+  }
+  for await (/* comment */ (let) of expression) {
+  }
+  for await ((let) of expression) {
+  }
+}
+
+================================================================================
+`;

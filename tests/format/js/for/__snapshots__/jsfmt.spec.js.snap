@@ -132,6 +132,54 @@ for (a in b) 0;
 ================================================================================
 `;
 
+exports[`let[-expression.js [flow] format 1`] = `
+"Unexpected token \`let\` (1:7)
+> 1 | for ((let[\\"prop\\"]) in expressioin) {}
+    |       ^^^
+  2 | for ((let[\\"prop\\"].foo) in expression) {}
+  3 | for ((let[\\"prop\\"].foo.bar) in expression) {}
+  4 | for ((/* comment */ let[\\"prop\\"]) in expression) {}"
+`;
+
+exports[`let[-expression.js format 1`] = `
+====================================options=====================================
+parsers: ["babel", "flow", "typescript"]
+printWidth: 80
+                                                                                | printWidth
+=====================================input======================================
+for ((let["prop"]) in expressioin) {}
+for ((let["prop"].foo) in expression) {}
+for ((let["prop"].foo.bar) in expression) {}
+for ((/* comment */ let["prop"]) in expression) {}
+for ((     let["prop"]      ) in expression) {}
+for (let[] in expression) {}
+for (let[prop] in expression) {}
+for ((let[prop]) in expression) {}
+for ((let    [prop]) in expression) {}
+
+=====================================output=====================================
+for ((let["prop"]) in expressioin) {
+}
+for ((let["prop"].foo) in expression) {
+}
+for ((let["prop"].foo.bar) in expression) {
+}
+for (/* comment */ (let["prop"]) in expression) {
+}
+for ((let["prop"]) in expression) {
+}
+for (let [] in expression) {
+}
+for (let [prop] in expression) {
+}
+for ((let[prop]) in expression) {
+}
+for ((let[prop]) in expression) {
+}
+
+================================================================================
+`;
+
 exports[`var.js format 1`] = `
 ====================================options=====================================
 parsers: ["babel", "flow", "typescript"]

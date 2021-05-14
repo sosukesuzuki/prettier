@@ -1,5 +1,8 @@
 "use strict";
 
+const {
+  getNextNonSpaceNonCommentCharacterIndexWithStartIndex,
+} = require("../common/util");
 const getLast = require("../utils/get-last");
 const { locStart } = require("./loc");
 const {
@@ -941,9 +944,15 @@ function needsParensForLeftOfForStatements(node, name, parent, options) {
   const startLoc = locStart(node);
   if (
     parent.type === "ForInStatement" &&
-    options.originalText.slice(startLoc, startLoc + 4) === "let["
+    options.originalText.slice(startLoc, startLoc + 3) === "let"
   ) {
-    return true;
+    const nextIdx = getNextNonSpaceNonCommentCharacterIndexWithStartIndex(
+      options.originalText,
+      startLoc + 3
+    );
+    if (nextIdx && options.originalText[nextIdx] === "[") {
+      return true;
+    }
   }
   if (
     parent.type === "ForOfStatement" &&
