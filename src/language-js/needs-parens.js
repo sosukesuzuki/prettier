@@ -942,10 +942,12 @@ function needsParensForLeftOfForStatements(node, name, parent, options) {
     return false;
   }
   const startLoc = locStart(node);
+  // for ((let["foo"]) in expression) {}
   if (
     parent.type === "ForInStatement" &&
     options.originalText.slice(startLoc, startLoc + 3) === "let"
   ) {
+    // for ((let      ["foo"]) in expression) {}
     const nextIdx = getNextNonSpaceNonCommentCharacterIndexWithStartIndex(
       options.originalText,
       startLoc + 3
@@ -954,20 +956,17 @@ function needsParensForLeftOfForStatements(node, name, parent, options) {
       return true;
     }
   }
-  if (
-    parent.type === "ForOfStatement" &&
-    !parent.await &&
-    (options.originalText.slice(startLoc, startLoc + 3) === "let" ||
-      (node.type === "Identifier" && node.name === "async"))
-  ) {
-    return true;
-  }
-  if (
-    parent.type === "ForOfStatement" &&
-    parent.await &&
-    options.originalText.slice(startLoc, startLoc + 3) === "let"
-  ) {
-    return true;
+  if (parent.type === "ForOfStatement") {
+    // for ((let) of expression) {}
+    // for ((let.foo) of expression) {}
+    // for ((let()) of expression) {}
+    if (options.originalText.slice(startLoc, startLoc + 3) === "let") {
+      return true;
+    }
+    // for ((async) of expression) {}
+    if (!parent.await && node.type === "Identifier" && node.name === "async") {
+      return true;
+    }
   }
   return false;
 }
