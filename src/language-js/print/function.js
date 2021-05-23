@@ -39,6 +39,7 @@ const {
   hasComment,
   getComments,
   CommentCheckFlags,
+  isCallExpression,
   isCallLikeExpression,
   isSimpleType,
 } = require("../utils");
@@ -424,7 +425,7 @@ function printReturnType(path, print, options, expandArg) {
   ) {
     const callExpression = path.findAncestor((ancestor) => {
       return (
-        ancestor.type === "CallExpression" &&
+        (isCallExpression(ancestor) || ancestor.type === "NewExpression") &&
         ancestor.arguments.some((arg) => arg === node)
       );
     });

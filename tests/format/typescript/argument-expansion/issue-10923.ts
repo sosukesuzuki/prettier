@@ -35,3 +35,27 @@ longfunctionWithCallBack(
     code();
   }
 );
+
+f(
+  "blabla",
+  foobarbazblablabla,
+  (thing: string): complex<type<something>> => {
+    code();
+  }
+);
+
+new f(
+  "blabla",
+  foobarbazblablabla,
+  (thing: string): complex<type<something>> => {
+    code();
+  }
+);
+
+n = f(
+  "blabla",
+  foobarbazblablabla,
+  (thing: string): complex<type<something>> => {
+    code();
+  }
+);

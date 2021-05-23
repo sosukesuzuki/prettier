@@ -130,6 +130,30 @@ longfunctionWithCallBack(
   }
 );
 
+f(
+  "blabla",
+  foobarbazblablabla,
+  (thing: string): complex<type<something>> => {
+    code();
+  }
+);
+
+new f(
+  "blabla",
+  foobarbazblablabla,
+  (thing: string): complex<type<something>> => {
+    code();
+  }
+);
+
+n = f(
+  "blabla",
+  foobarbazblablabla,
+  (thing: string): complex<type<something>> => {
+    code();
+  }
+);
+
 =====================================output=====================================
 longfunctionWithCallBack(
   "blabla",
@@ -169,6 +193,30 @@ longfunctionWithCallBack(
   "blabla",
   foobarbazblablabla,
   (thing: string): Fooooooooooooooooooooooo => {
+    code();
+  }
+);
+
+f(
+  "blabla",
+  foobarbazblablabla,
+  (thing: string): complex<type<something>> => {
+    code();
+  }
+);
+
+new f(
+  "blabla",
+  foobarbazblablabla,
+  (thing: string): complex<type<something>> => {
+    code();
+  }
+);
+
+n = f(
+  "blabla",
+  foobarbazblablabla,
+  (thing: string): complex<type<something>> => {
     code();
   }
 );
