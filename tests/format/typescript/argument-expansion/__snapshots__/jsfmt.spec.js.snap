@@ -114,6 +114,22 @@ longfunctionWithCallBack(
   }
 );
 
+longfunctionWithCallBack(
+  "blabla",
+  foobarbazblablabla,
+  (thing: string): Foooo | Barrrrrr | BAAAZ => {
+    code();
+  }
+);
+
+longfunctionWithCallBack(
+  "blabla",
+  foobarbazblablabla,
+  (thing: string): Fooooooooooooooooooooooo => {
+    code();
+  }
+);
+
 =====================================output=====================================
 longfunctionWithCallBack(
   "blabla",
@@ -137,6 +153,22 @@ longfunctionWithCallBack(
   "blabla",
   foobarbazblablabla,
   (thing: string): complex<type<something>> => {
+    code();
+  }
+);
+
+longfunctionWithCallBack(
+  "blabla",
+  foobarbazblablabla,
+  (thing: string): Foooo | Barrrrrr | BAAAZ => {
+    code();
+  }
+);
+
+longfunctionWithCallBack(
+  "blabla",
+  foobarbazblablabla,
+  (thing: string): Fooooooooooooooooooooooo => {
     code();
   }
 );

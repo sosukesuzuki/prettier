@@ -19,3 +19,19 @@ longfunctionWithCallBack(
     code();
   }
 );
+
+longfunctionWithCallBack(
+  "blabla",
+  foobarbazblablabla,
+  (thing: string): Foooo | Barrrrrr | BAAAZ => {
+    code();
+  }
+);
+
+longfunctionWithCallBack(
+  "blabla",
+  foobarbazblablabla,
+  (thing: string): Fooooooooooooooooooooooo => {
+    code();
+  }
+);
