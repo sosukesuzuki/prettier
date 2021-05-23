@@ -23,6 +23,7 @@ const {
     join,
     indentIfBreak,
   },
+  utils: { willBreak },
 } = require("../../document");
 const {
   getFunctionParameters,
@@ -39,6 +40,7 @@ const {
   getComments,
   CommentCheckFlags,
   isCallLikeExpression,
+  isSimpleType,
 } = require("../utils");
 const { locEnd } = require("../loc");
 const {
@@ -47,6 +49,7 @@ const {
 } = require("./function-parameters");
 const { printPropertyKey } = require("./property");
 const { printFunctionTypeParameters } = require("./misc");
+const { ArgExpansionBailout } = require("../../common/errors");
 
 function printFunctionDeclaration(path, print, options, expandArg) {
   const node = path.getValue();
@@ -176,16 +179,17 @@ function printArrowFunctionSignature(path, options, print, args) {
   if (shouldPrintParamsWithoutParens(path, options)) {
     parts.push(print(["params", 0]));
   } else {
+    const expandArg = args && (args.expandLastArg || args.expandFirstArg);
     parts.push(
       group([
         printFunctionParameters(
           path,
           print,
           options,
-          /* expandLast */ args && (args.expandLastArg || args.expandFirstArg),
+          expandArg,
           /* printTypeParams */ true
         ),
-        printReturnType(path, print, options),
+        printReturnType(path, print, options, expandArg),
       ])
     );
   }
@@ -388,7 +392,7 @@ function shouldPrintParamsWithoutParens(path, options) {
   return false;
 }
 
-function printReturnType(path, print, options) {
+function printReturnType(path, print, options, expandArg) {
   const node = path.getValue();
   const returnType = print("returnType");
 
@@ -410,6 +414,27 @@ function printReturnType(path, print, options) {
     // The return type will already add the colon, but otherwise we
     // need to do it ourselves
     parts.push(node.returnType ? " " : ": ", print("predicate"));
+  }
+
+  if (
+    expandArg &&
+    node.returnType &&
+    node.returnType.typeAnnotation &&
+    !isSimpleType(node.returnType.typeAnnotation)
+  ) {
+    const callExpression = path.findAncestor((ancestor) => {
+      return (
+        ancestor.type === "CallExpression" &&
+        ancestor.arguments.some((arg) => arg === node)
+      );
+    });
+    if (
+      callExpression &&
+      callExpression.arguments.length > 2 &&
+      willBreak(print())
+    ) {
+      throw new ArgExpansionBailout();
+    }
   }
 
   return parts;
