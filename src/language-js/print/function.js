@@ -424,10 +424,7 @@ function printReturnType(path, print, options, expandArg) {
     !isSimpleType(node.returnType.typeAnnotation)
   ) {
     const callExpression = path.findAncestor((ancestor) => {
-      return (
-        (isCallExpression(ancestor) || ancestor.type === "NewExpression") &&
-        ancestor.arguments.some((arg) => arg === node)
-      );
+      return isCallExpression(ancestor) || ancestor.type === "NewExpression";
     });
     if (
       callExpression &&
