@@ -27,7 +27,6 @@ jobs:
 
       - name: Run clean-cspell.mjs
         uses: actions/github-script@v4
-        env:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
