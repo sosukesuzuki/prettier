@@ -52,7 +52,7 @@ jobs:
 
             const { stdout: diff } = await execa("git", ["diff", "--name-only"]);
             console.log({ diff });
-            if (diff.includes("clean-cspell.mjs")) {
+            if (diff.includes("cspell.json")) {
               await execa("git", ["add", "."]);
               await execa("git", ["commit", "-m", `"Update clean-cspell.json"`]);
 
