@@ -51,7 +51,7 @@ jobs:
             await execa("node", ["./scripts/clean-cspell.mjs"]);
 
             const { stdout: diff } = await execa("git", ["diff", "--name-only"]);
-            console.log({ diff }):
+            console.log({ diff });
             if (diff.includes("clean-cspell.mjs")) {
               await execa("git", ["add", "."]);
               await execa("git", ["commit", "-m", `"Update clean-cspell.json"`]);
