@@ -32,7 +32,17 @@ jobs:
           script: |
             const execa = require("execa");
 
-            const dateStr = new Date().toISOString().slice(0, 16);
+            const date = new Date();
+            const dateStr =
+              date.getFullYear() +
+              "-" +
+              ("0" + (date.getMonth() + 1)).slice(-2) +
+              "-" +
+              ("0" + date.getDate()).slice(-2) +
+              " " +
+              ("0" + date.getHours()).slice(-2) +
+              "-" +
+              ("0" + date.getMinutes()).slice(-2);
             const branch = `update-cspell-${dateStr}`;
 
             await execa("git", ["checkout", "-b", branch]);
@@ -46,14 +56,14 @@ jobs:
               await execa("git", ["commit", "-m", `"Update clean-cspell.json"`]);
 
               console.log("Push to remote...");
-              await execa("git", ["push", "origin", branch])
+              await execa("git", ["push", "origin", branch]);
 
-              console.log("Create a pull request...")
+              console.log("Create a pull request...");
               await github.pulls.create({
                 ...context.repo,
                 title: `Update cspell.json (${dateStr})`,
                 head: branch,
                 base: "main",
                 maintainer_can_modify: true,
-              })
+              });
             }
