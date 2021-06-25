@@ -18,6 +18,10 @@ module.exports = {
           presets: ["@babel/env", "@babel/react"],
         },
       },
+      {
+        test: /\.txt/,
+        type: "asset/source",
+      },
     ],
   },
   externals: {
