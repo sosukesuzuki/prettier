@@ -65,6 +65,15 @@ function getExplorer(opts) {
   return getExplorerMemoized(opts);
 }
 
+function getOverrides() {
+  const { search } = getExplorer({ sync: true });
+  const searchResult = search();
+  if (searchResult && searchResult.config) {
+    return searchResult.config.overrides;
+  }
+  return null;
+}
+
 function _resolveConfig(filePath, opts, sync) {
   opts = { useCache: true, ...opts };
   const loadOpts = {
@@ -173,4 +182,5 @@ module.exports = {
   resolveConfig,
   resolveConfigFile,
   clearCache,
+  getOverrides,
 };

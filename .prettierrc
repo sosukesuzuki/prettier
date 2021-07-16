@@ -2,3 +2,8 @@ overrides:
   - files: "**/*.{js,mjs}"
     options:
       parser: meriyah
+  - files:
+      - "**/*.abc"
+      - "**/*.ccc"
+    options:
+      parser: espree

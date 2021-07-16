@@ -3,6 +3,8 @@
 const path = require("path");
 const { promises: fs } = require("fs");
 const fastGlob = require("fast-glob");
+// eslint-disable-next-line no-restricted-modules
+const { getOverrides } = require("../config/resolve-config");
 
 /** @typedef {import('./context').Context} Context */
 
@@ -54,7 +56,7 @@ async function* expandPatternsInternal(context) {
     ignore: silentlyIgnoredDirs.map((dir) => "**/" + dir),
   };
 
-  let supportedFilesGlob;
+  const supportedFilesGlob = [];
   const cwd = process.cwd();
 
   /** @type {Array<{ type: 'file' | 'dir' | 'glob'; glob: string; input: string; }>} */
@@ -84,10 +86,10 @@ async function* expandPatternsInternal(context) {
         const relativePath = path.relative(cwd, absolutePath) || ".";
         entries.push({
           type: "dir",
-          glob:
-            escapePathForGlob(fixWindowsSlashes(relativePath)) +
-            "/" +
-            getSupportedFilesGlob(),
+          glob: getSupportedFilesGlob().map(
+            (glob) =>
+              escapePathForGlob(fixWindowsSlashes(relativePath)) + "/" + glob
+          ),
           input: pattern,
         });
       }
@@ -124,18 +126,46 @@ async function* expandPatternsInternal(context) {
     }
   }
 
+  function overriddenParserGlobs() {
+    const overrides = getOverrides();
+    if (!overrides) {
+      return null;
+    }
+    const globs = [];
+    for (const override of overrides) {
+      if (override.options && override.options.parser) {
+        if (Array.isArray(override.files)) {
+          for (const file of override.files) {
+            globs.push(file);
+          }
+        } else {
+          globs.push(override.files);
+        }
+      }
+    }
+    return globs;
+  }
+
   function getSupportedFilesGlob() {
-    if (!supportedFilesGlob) {
+    if (supportedFilesGlob.length === 0) {
       const extensions = context.languages.flatMap(
         (lang) => lang.extensions || []
       );
       const filenames = context.languages.flatMap(
         (lang) => lang.filenames || []
       );
-      supportedFilesGlob = `**/{${[
-        ...extensions.map((ext) => "*" + (ext[0] === "." ? ext : "." + ext)),
-        ...filenames,
-      ]}}`;
+      supportedFilesGlob.push(
+        `**/{${[
+          ...extensions.map((ext) => "*" + (ext[0] === "." ? ext : "." + ext)),
+          ...filenames,
+        ]}}`
+      );
+      const overriddenGlobs = overriddenParserGlobs();
+      if (overriddenGlobs) {
+        for (const glob of overriddenGlobs) {
+          supportedFilesGlob.push(glob);
+        }
+      }
     }
     return supportedFilesGlob;
   }
