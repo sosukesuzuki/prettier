@@ -59,7 +59,7 @@ async function* expandPatternsInternal(context) {
   const supportedFilesGlob = [];
   const cwd = process.cwd();
 
-  /** @type {Array<{ type: 'file' | 'dir' | 'glob'; glob: string; input: string; }>} */
+  /** @type {Array<{ type: 'file' | 'dir' | 'glob'; glob: string | string[] ; input: string; }>} */
   const entries = [];
 
   for (const pattern of context.filePatterns) {
