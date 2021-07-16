@@ -86,7 +86,7 @@ async function* expandPatternsInternal(context) {
         const relativePath = path.relative(cwd, absolutePath) || ".";
         entries.push({
           type: "dir",
-          glob: getSupportedFilesGlob().map(
+          glob: (await getSupportedFilesGlob()).map(
             (glob) =>
               escapePathForGlob(fixWindowsSlashes(relativePath)) + "/" + glob
           ),
@@ -126,8 +126,8 @@ async function* expandPatternsInternal(context) {
     }
   }
 
-  function overriddenParserGlobs() {
-    const overrides = getOverrides();
+  async function overriddenParserGlobs() {
+    const overrides = await getOverrides();
     if (!overrides) {
       return null;
     }
@@ -146,7 +146,7 @@ async function* expandPatternsInternal(context) {
     return globs;
   }
 
-  function getSupportedFilesGlob() {
+  async function getSupportedFilesGlob() {
     if (supportedFilesGlob.length === 0) {
       const extensions = context.languages.flatMap(
         (lang) => lang.extensions || []
@@ -160,7 +160,7 @@ async function* expandPatternsInternal(context) {
           ...filenames,
         ]}}`
       );
-      const overriddenGlobs = overriddenParserGlobs();
+      const overriddenGlobs = await overriddenParserGlobs();
       if (overriddenGlobs) {
         for (const glob of overriddenGlobs) {
           supportedFilesGlob.push(glob);

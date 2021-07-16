@@ -65,9 +65,9 @@ function getExplorer(opts) {
   return getExplorerMemoized(opts);
 }
 
-function getOverrides() {
+async function getOverrides() {
   const { search } = getExplorer({ sync: true });
-  const searchResult = search();
+  const searchResult = await search();
   if (searchResult && searchResult.config) {
     return searchResult.config.overrides;
   }
