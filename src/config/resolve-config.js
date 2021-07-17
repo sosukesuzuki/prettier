@@ -65,7 +65,7 @@ function getExplorer(opts) {
   return getExplorerMemoized(opts);
 }
 
-async function getOverrides() {
+async function getOverridesFromConfig() {
   const { search } = getExplorer({ sync: true });
   const searchResult = await search();
   if (searchResult && searchResult.config) {
@@ -182,5 +182,5 @@ module.exports = {
   resolveConfig,
   resolveConfigFile,
   clearCache,
-  getOverrides,
+  getOverridesFromConfig,
 };

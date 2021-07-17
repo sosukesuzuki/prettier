@@ -4,7 +4,7 @@ const path = require("path");
 const { promises: fs } = require("fs");
 const fastGlob = require("fast-glob");
 // eslint-disable-next-line no-restricted-modules
-const { getOverrides } = require("../config/resolve-config");
+const { getOverridesFromConfig } = require("../config/resolve-config");
 
 /** @typedef {import('./context').Context} Context */
 
@@ -126,8 +126,11 @@ async function* expandPatternsInternal(context) {
     }
   }
 
+  /**
+   * get globs that are overridden in config file.
+   */
   async function overriddenParserGlobs() {
-    const overrides = await getOverrides();
+    const overrides = await getOverridesFromConfig();
     if (!overrides) {
       return null;
     }
