@@ -136,7 +136,7 @@ async function* expandPatternsInternal(context) {
     }
     const globs = [];
     for (const override of overrides) {
-      if (override.options && override.options.parser) {
+      if (override.options && override.options.parser && override.files) {
         if (Array.isArray(override.files)) {
           for (const file of override.files) {
             globs.push(file);
