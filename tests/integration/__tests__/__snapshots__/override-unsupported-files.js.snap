@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`format unsupported file whose parser is overridden when a directory is specified for glob (write) 1`] = `Array []`;
+
+exports[`format unsupported file whose parser is overridden when a directory is specified for glob with ignore-unknown (write) 1`] = `Array []`;
+
+exports[`format unsupported file whose parser is overridden when a file is specified for glob (write) 1`] = `Array []`;
+
+exports[`format unsupported file whose parser is overridden when a file is specified for glob with ignore-unknown (write) 1`] = `Array []`;

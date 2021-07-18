@@ -1,0 +1,10 @@
+{
+  "overrides": [
+    {
+      "files": "**/*.overridden-as-js",
+      "options": {
+        "parser": "babel"
+      }
+    }
+  ]
+}
