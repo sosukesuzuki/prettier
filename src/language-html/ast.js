@@ -1,7 +1,7 @@
 "use strict";
 
-const { isNonEmptyArray } = require("../common/util");
-const getLast = require("../utils/get-last");
+const { isNonEmptyArray } = require("../common/util.js");
+const getLast = require("../utils/get-last.js");
 
 const NODES_KEYS = {
   attrs: true,
@@ -72,11 +72,30 @@ class Node {
     return fn(newNode || this);
   }
 
+  walk(fn) {
+    for (const NODES_KEY in NODES_KEYS) {
+      const nodes = this[NODES_KEY];
+      if (nodes) {
+        for (let i = 0; i < nodes.length; i++) {
+          nodes[i].walk(fn);
+        }
+      }
+    }
+    fn(this);
+  }
+
   /**
    * @param {Object} [overrides]
    */
   clone(overrides) {
     return new Node(overrides ? { ...this, ...overrides } : this);
+  }
+
+  /**
+   * @param {Array} [children]
+   */
+  setChildren(children) {
+    this._setNodes("children", children);
   }
 
   get firstChild() {
