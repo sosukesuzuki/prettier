@@ -18,6 +18,7 @@ const {
   hasComment,
   isSignedNumericLiteral,
   isObjectProperty,
+  isTypeAlias,
 } = require("../utils.js");
 const { shouldInlineLogicalExpression } = require("./binaryish.js");
 const { printCallExpression } = require("./call-expression.js");
@@ -267,10 +268,6 @@ function getTypeParametersFromTypeAlias(node) {
     return node.typeParameters.params;
   }
   return null;
-}
-
-function isTypeAlias(node) {
-  return node.type === "TSTypeAliasDeclaration" || node.type === "TypeAlias";
 }
 
 function hasComplexTypeAnnotation(node) {

@@ -26,6 +26,7 @@ const {
   isMemberExpression,
   isObjectProperty,
   getComments,
+  isTypeAlias,
   CommentCheckFlags,
 } = require("./utils.js");
 const { locStart, locEnd } = require("./loc.js");
@@ -782,7 +783,7 @@ function handleAssignmentPatternComments({ comment, enclosingNode }) {
 }
 
 function handleTypeAliasComments({ comment, enclosingNode }) {
-  if (enclosingNode && enclosingNode.type === "TypeAlias") {
+  if (enclosingNode && isTypeAlias(enclosingNode)) {
     addLeadingComment(enclosingNode, comment);
     return true;
   }

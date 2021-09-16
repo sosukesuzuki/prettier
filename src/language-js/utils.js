@@ -1310,6 +1310,10 @@ function isObjectProperty(node) {
   );
 }
 
+function isTypeAlias(node) {
+  return node.type === "TSTypeAliasDeclaration" || node.type === "TypeAlias";
+}
+
 module.exports = {
   getFunctionParameters,
   iterateFunctionParametersPath,
@@ -1362,6 +1366,7 @@ module.exports = {
   isTheOnlyJsxElementInMarkdown,
   isTSXFile,
   isTypeAnnotationAFunction,
+  isTypeAlias,
   isNextLineEmpty,
   needsHardlineAfterDanglingComment,
   rawText,
