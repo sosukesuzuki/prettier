@@ -1,3 +1,108 @@
+# 2.4.1
+
+[diff](https://github.com/prettier/prettier/compare/2.4.0...2.4.1)
+
+#### Fix wildcard syntax in `@forward` ([#11482](https://github.com/prettier/prettier/pull/11482)) ([#11487](https://github.com/prettier/prettier/pull/11487) by [@niksy](https://github.com/niksy))
+
+<!-- prettier-ignore -->
+```scss
+// Input
+@forward "library" as btn-*;
+
+// Prettier 2.4.0
+@forward "library" as btn- *;
+
+// Prettier 2.4.1
+@forward "library" as btn-*;
+```
+
+#### Add new CLI option `debug-print-ast` ([#11514](https://github.com/prettier/prettier/pull/11514) by [@sosukesuzuki](https://github.com/sosukesuzuki))
+
+A new `--debug-print-ast` CLI flag for debugging.
+
+# 2.4.0
+
+[diff](https://github.com/prettier/prettier/compare/2.3.2...2.4.0)
+
+🔗 [Release Notes](https://prettier.io/blog/2021/09/09/2.4.0.html)
+
+# 2.3.2
+
+[diff](https://github.com/prettier/prettier/compare/2.3.1...2.3.2)
+
+#### Fix failure on dir with trailing slash ([#11000](https://github.com/prettier/prettier/pull/11000) by [@fisker](https://github.com/fisker))
+
+<!-- prettier-ignore -->
+```console
+$ ls
+1.js  1.unknown
+
+# Prettier 2.3.1
+$ prettier . -l
+1.js
+$ prettier ./ -l
+[error] No supported files were found in the directory: "./".
+
+# Prettier 2.3.2
+$ prettier ./ -l
+1.js
+```
+
+#### Fix handling of parenthesis with Flow's {Optional}IndexedAccess ([#11051](https://github.com/prettier/prettier/pull/11051) by [@gkz](https://github.com/gkz))
+
+Add parens when required.
+
+<!-- prettier-ignore -->
+```jsx
+// Input
+type A = (T & S)['bar'];
+type B = (T | S)['bar'];
+type C = (?T)['bar'];
+type D = (typeof x)['bar'];
+type E = (string => void)['bar'];
+
+// Prettier 2.3.1
+type A = T & S["bar"];
+type B = T | S["bar"];
+type C = ?T["bar"];
+type D = typeof x["bar"];
+type E = (string) => void["bar"];
+
+// Prettier 2.3.2
+type A = (T & S)["bar"];
+type B = (T | S)["bar"];
+type C = (?T)["bar"];
+type D = (typeof x)["bar"];
+type E = ((string) => void)["bar"];
+```
+
+#### Print override modifiers for parameter property ([#11074](https://github.com/prettier/prettier/pull/11074) by [@sosukesuzuki](https://github.com/sosukesuzuki))
+
+<!-- prettier-ignore -->
+```ts
+// Input
+class D extends B {
+  constructor(override foo: string) {
+    super();
+  }
+}
+
+// Prettier 2.3.1
+class D extends B {
+  constructor(foo: string) {
+    super();
+  }
+}
+
+// Prettier 2.3.2
+class D extends B {
+  constructor(override foo: string) {
+    super();
+  }
+}
+
+```
+
 # 2.3.1
 
 [diff](https://github.com/prettier/prettier/compare/2.3.0...2.3.1)
@@ -206,6 +311,7 @@ const foo = call<{
 
 #### Fix order of `override` modifiers ([#10961](https://github.com/prettier/prettier/pull/10961) by [@sosukesuzuki](https://github.com/sosukesuzuki))
 
+<!-- prettier-ignore -->
 ```ts
 // Input
 class Foo extends Bar {
@@ -214,7 +320,7 @@ class Foo extends Bar {
 
 // Prettier stable
 class Foo extends Bar {
-  abstract override foo: string;
+  override abstract foo: string;
 }
 
 // Prettier main

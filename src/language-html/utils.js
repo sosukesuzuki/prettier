@@ -6,13 +6,20 @@
 
 const htmlTagNames = require("html-tag-names");
 const htmlElementAttributes = require("html-element-attributes");
-const { inferParserByLanguage, isFrontMatterNode } = require("../common/util");
+const {
+  inferParserByLanguage,
+  isFrontMatterNode,
+} = require("../common/util.js");
+const {
+  builders: { line, hardline, join },
+  utils: { getDocParts, replaceTextEndOfLine },
+} = require("../document/index.js");
 const {
   CSS_DISPLAY_TAGS,
   CSS_DISPLAY_DEFAULT,
   CSS_WHITE_SPACE_TAGS,
   CSS_WHITE_SPACE_DEFAULT,
-} = require("./constants.evaluate");
+} = require("./constants.evaluate.js");
 
 const HTML_TAGS = arrayToMap(htmlTagNames);
 const HTML_ELEMENT_ATTRIBUTES = mapObject(htmlElementAttributes, arrayToMap);
@@ -116,20 +123,6 @@ function hasPrettierIgnore(node) {
 
 function isPrettierIgnore(node) {
   return node.type === "comment" && node.value.trim() === "prettier-ignore";
-}
-
-function getPrettierIgnoreAttributeCommentData(value) {
-  const match = value.trim().match(/^prettier-ignore-attribute(?:\s+(.+))?$/s);
-
-  if (!match) {
-    return false;
-  }
-
-  if (!match[1]) {
-    return true;
-  }
-
-  return match[1].split(/\s+/);
 }
 
 /** there's no opening/closing tag or it's considered not breakable */
@@ -599,14 +592,6 @@ function dedentString(text, minIndent = getMinIndentation(text)) {
         .join("\n");
 }
 
-function shouldNotPrintClosingTag(node, options) {
-  return (
-    !node.isSelfClosing &&
-    !node.endSourceSpan &&
-    (hasPrettierIgnore(node) || shouldPreserveContent(node.parent, options))
-  );
-}
-
 function countChars(text, char) {
   let counter = 0;
   for (let i = 0; i < text.length; i++) {
@@ -671,12 +656,22 @@ function isVueSfcBindingsAttribute(attribute, options) {
   );
 }
 
+function getTextValueParts(node, value = node.value) {
+  return node.parent.isWhitespaceSensitive
+    ? node.parent.isIndentationSensitive
+      ? replaceTextEndOfLine(value)
+      : replaceTextEndOfLine(
+          dedentString(htmlTrimPreserveIndentation(value)),
+          hardline
+        )
+    : getDocParts(join(line, splitByHtmlWhitespace(value)));
+}
+
 module.exports = {
   HTML_ELEMENT_ATTRIBUTES,
   HTML_TAGS,
   htmlTrim,
   htmlTrimPreserveIndentation,
-  splitByHtmlWhitespace,
   hasHtmlWhitespace,
   getLeadingAndTrailingHtmlWhitespace,
   canHaveInterpolation,
@@ -689,7 +684,6 @@ module.exports = {
   getLastDescendant,
   getNodeCssStyleDisplay,
   getNodeCssStyleWhiteSpace,
-  getPrettierIgnoreAttributeCommentData,
   hasPrettierIgnore,
   inferScriptParser,
   isVueCustomBlock,
@@ -707,7 +701,7 @@ module.exports = {
   isUnknownNamespace,
   preferHardlineAsLeadingSpaces,
   preferHardlineAsTrailingSpaces,
-  shouldNotPrintClosingTag,
   shouldPreserveContent,
   unescapeQuoteEntities,
+  getTextValueParts,
 };

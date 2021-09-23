@@ -1,6 +1,6 @@
-export default function (replacements = {}) {
+export default function rollupPluginReplaceModule(replacements = {}) {
   return {
-    name: "externals",
+    name: "replace-module",
 
     load(importee) {
       if (!Reflect.has(replacements, importee)) {
